@@ -56,6 +56,7 @@ export default {
 				navy: "#0A2463",
 				navyLight: "#1E3A8A",
 				darkNavy: "#051940",
+				deepNavy: "#031029",
 				orange: "#FF7F11",
 				orangeLight: "#FFAD5B",
 				charcoal: "#222222",

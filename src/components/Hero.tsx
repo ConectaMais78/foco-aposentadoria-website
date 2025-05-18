@@ -16,7 +16,7 @@ const Hero = () => {
           alt="Justiça e Previdência Social"
           className="w-full h-full object-cover"
         />
-        <div className="hero-overlay"></div>
+        <div className="hero-overlay bg-darkNavy/80"></div>
       </div>
       
       {/* Centered content */}
