@@ -55,8 +55,11 @@ export default {
 				},
 				navy: "#0A2463",
 				navyLight: "#1E3A8A",
+				darkNavy: "#051940",
 				orange: "#FF7F11",
 				orangeLight: "#FFAD5B",
+				charcoal: "#222222",
+				darkGray: "#333333",
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -101,8 +104,8 @@ export default {
 				'fade-in': 'fadeIn 0.5s ease-out'
 			},
 			fontFamily: {
-				montserrat: ['Montserrat', 'sans-serif'],
-				opensans: ['Open Sans', 'sans-serif']
+				playfair: ['Playfair Display', 'serif'],
+				roboto: ['Roboto', 'sans-serif']
 			},
 		}
 	},

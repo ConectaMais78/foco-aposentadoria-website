@@ -1,22 +1,44 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
-      <div className="container mx-auto py-4 px-6 md:px-8">
+    <header 
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled 
+          ? "bg-darkNavy/95 backdrop-blur-sm shadow-md py-3" 
+          : "bg-transparent py-6"
+      }`}
+    >
+      <div className="container mx-auto px-6 md:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <a href="#home" className="flex items-center">
-              <span className="text-navy font-montserrat font-bold text-xl md:text-2xl">
+              <span className="text-white font-playfair font-bold text-xl md:text-2xl">
                 Foco na <span className="text-orange">Aposentadoria</span>
               </span>
             </a>
@@ -26,31 +48,31 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-8">
             <a
               href="#sobre"
-              className="text-gray-700 hover:text-navy transition-colors font-medium"
+              className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Sobre
             </a>
             <a
               href="#advogados"
-              className="text-gray-700 hover:text-navy transition-colors font-medium"
+              className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Advogados
             </a>
             <a
               href="#servicos"
-              className="text-gray-700 hover:text-navy transition-colors font-medium"
+              className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Serviços
             </a>
             <a
               href="#depoimentos"
-              className="text-gray-700 hover:text-navy transition-colors font-medium"
+              className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Depoimentos
             </a>
             <a
               href="#faq"
-              className="text-gray-700 hover:text-navy transition-colors font-medium"
+              className="text-white/80 hover:text-white transition-colors font-medium"
             >
               FAQ
             </a>
@@ -64,7 +86,7 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-gray-700"
+            className="md:hidden text-white"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
@@ -75,39 +97,39 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t">
+        <div className="md:hidden bg-darkNavy border-t border-white/10">
           <div className="container mx-auto py-4 flex flex-col gap-4">
             <a
               href="#sobre"
-              className="text-gray-700 hover:text-navy transition-colors font-medium py-2"
+              className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Sobre
             </a>
             <a
               href="#advogados"
-              className="text-gray-700 hover:text-navy transition-colors font-medium py-2"
+              className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Advogados
             </a>
             <a
               href="#servicos"
-              className="text-gray-700 hover:text-navy transition-colors font-medium py-2"
+              className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Serviços
             </a>
             <a
               href="#depoimentos"
-              className="text-gray-700 hover:text-navy transition-colors font-medium py-2"
+              className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Depoimentos
             </a>
             <a
               href="#faq"
-              className="text-gray-700 hover:text-navy transition-colors font-medium py-2"
+              className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               FAQ
