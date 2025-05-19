@@ -12,15 +12,27 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-deepNavy">
       <Header />
       <Hero />
-      <AboutSection />
-      <TeamSection />
-      <ServiceSection />
-      <TestimonialSection />
-      <FaqSection />
-      <ContactSection />
+      <div className="section-gradient">
+        <AboutSection />
+      </div>
+      <div className="bg-navy">
+        <TeamSection />
+      </div>
+      <div className="section-gradient">
+        <ServiceSection />
+      </div>
+      <div className="bg-deepNavy">
+        <TestimonialSection />
+      </div>
+      <div className="section-gradient">
+        <FaqSection />
+      </div>
+      <div className="bg-darkNavy">
+        <ContactSection />
+      </div>
       <Footer />
     </div>
   );

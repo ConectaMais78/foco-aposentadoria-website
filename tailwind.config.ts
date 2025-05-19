@@ -97,17 +97,25 @@ export default {
 				fadeIn: {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
+				},
+				shimmer: {
+					'100%': { transform: 'translateX(100%)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fadeIn 0.5s ease-out'
+				'fade-in': 'fadeIn 0.5s ease-out',
+				shimmer: 'shimmer 2s infinite'
 			},
 			fontFamily: {
 				playfair: ['Playfair Display', 'serif'],
 				roboto: ['Roboto', 'sans-serif']
 			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

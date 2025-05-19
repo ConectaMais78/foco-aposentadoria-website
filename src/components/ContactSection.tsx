@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram } from "lucide-react";
 
 const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
@@ -15,28 +15,31 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contato" className="section-padding bg-white">
+    <section id="contato" className="section-padding bg-darkNavy">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
-            Entre em Contato
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="inline-block mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">
+              Entre em Contato
+            </h2>
+            <div className="h-1 w-24 bg-gradient-to-r from-orange/50 to-orange mx-auto"></div>
+          </div>
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             Estamos prontos para ajudar você a conquistar seus direitos.
             Entre em contato para uma consulta gratuita.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
-            <h3 className="text-2xl font-bold text-navy mb-6">
+          <div className="card-gradient p-8 rounded-lg shadow-lg">
+            <h3 className="text-2xl font-bold text-white mb-6">
               Envie uma mensagem
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-navy font-medium">
+                  <label htmlFor="name" className="text-gray-200 font-medium">
                     Nome completo
                   </label>
                   <Input
@@ -44,11 +47,11 @@ const ContactSection = () => {
                     type="text"
                     placeholder="Seu nome"
                     required
-                    className="border-gray-200 focus:border-navy focus:ring-navy"
+                    className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-navy font-medium">
+                  <label htmlFor="email" className="text-gray-200 font-medium">
                     E-mail
                   </label>
                   <Input
@@ -56,13 +59,13 @@ const ContactSection = () => {
                     type="email"
                     placeholder="Seu e-mail"
                     required
-                    className="border-gray-200 focus:border-navy focus:ring-navy"
+                    className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="phone" className="text-navy font-medium">
+                <label htmlFor="phone" className="text-gray-200 font-medium">
                   Telefone
                 </label>
                 <Input
@@ -70,12 +73,12 @@ const ContactSection = () => {
                   type="tel"
                   placeholder="(00) 00000-0000"
                   required
-                  className="border-gray-200 focus:border-navy focus:ring-navy"
+                  className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="subject" className="text-navy font-medium">
+                <label htmlFor="subject" className="text-gray-200 font-medium">
                   Assunto
                 </label>
                 <Input
@@ -83,12 +86,12 @@ const ContactSection = () => {
                   type="text"
                   placeholder="Assunto da mensagem"
                   required
-                  className="border-gray-200 focus:border-navy focus:ring-navy"
+                  className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-navy font-medium">
+                <label htmlFor="message" className="text-gray-200 font-medium">
                   Mensagem
                 </label>
                 <Textarea
@@ -96,54 +99,71 @@ const ContactSection = () => {
                   placeholder="Descreva sua situação..."
                   rows={5}
                   required
-                  className="border-gray-200 focus:border-navy focus:ring-navy resize-none"
+                  className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white resize-none"
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="bg-orange hover:bg-orangeLight text-white font-medium text-lg w-full"
-              >
-                Enviar mensagem
-              </Button>
+              <div className="space-y-4">
+                <Button
+                  type="submit"
+                  className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg w-full transition-all duration-300"
+                >
+                  Enviar mensagem
+                </Button>
+                
+                <a 
+                  href="https://www.instagram.com/foconaaposentadoria/?hl=es" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-full"
+                >
+                  <Button
+                    type="button"
+                    className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-medium text-lg w-full transition-all duration-300"
+                  >
+                    <Instagram className="mr-2 h-5 w-5" />
+                    Siga-nos no Instagram
+                  </Button>
+                </a>
+              </div>
             </form>
           </div>
 
           <div>
-            <h3 className="text-2xl font-bold text-navy mb-6">
+            <h3 className="text-2xl font-bold text-white mb-6">
               Informações de contato
             </h3>
 
             <div className="space-y-8">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-navy/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Phone className="h-6 w-6 text-navy" />
+                <div className="w-12 h-12 bg-orange/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Phone className="h-6 w-6 text-orange" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1">Telefone</h4>
-                  <p className="text-gray-600">(11) 5555-5555</p>
-                  <p className="text-gray-600">(11) 99999-9999 (WhatsApp)</p>
+                  <h4 className="text-lg font-semibold text-white mb-1">Telefone</h4>
+                  <p className="text-gray-300">(11) 5555-5555</p>
+                  <p className="text-gray-300">(11) 99999-9999 (WhatsApp)</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-navy/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Mail className="h-6 w-6 text-navy" />
+                <div className="w-12 h-12 bg-orange/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Mail className="h-6 w-6 text-orange" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1">E-mail</h4>
-                  <p className="text-gray-600">contato@foconaaposentadoria.com.br</p>
-                  <p className="text-gray-600">atendimento@foconaaposentadoria.com.br</p>
+                  <h4 className="text-lg font-semibold text-white mb-1">E-mail</h4>
+                  <p className="text-gray-300">contato@foconaaposentadoria.com.br</p>
+                  <p className="text-gray-300">atendimento@foconaaposentadoria.com.br</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-navy/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-navy" />
+                <div className="w-12 h-12 bg-orange/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-orange" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1">Endereço</h4>
-                  <p className="text-gray-600">
+                  <h4 className="text-lg font-semibold text-white mb-1">Endereço</h4>
+                  <p className="text-gray-300">
                     Av. Paulista, 1000, Sala 101
                     <br />
                     Bela Vista, São Paulo - SP
@@ -154,12 +174,12 @@ const ContactSection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-navy/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Clock className="h-6 w-6 text-navy" />
+                <div className="w-12 h-12 bg-orange/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Clock className="h-6 w-6 text-orange" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1">Horário de atendimento</h4>
-                  <p className="text-gray-600">
+                  <h4 className="text-lg font-semibold text-white mb-1">Horário de atendimento</h4>
+                  <p className="text-gray-300">
                     Segunda a Sexta: 9h às 18h
                     <br />
                     Sábado: 9h às 13h (com agendamento)
@@ -168,7 +188,7 @@ const ContactSection = () => {
               </div>
             </div>
 
-            <div className="mt-8 h-64 md:h-80 bg-gray-200 rounded-lg overflow-hidden">
+            <div className="mt-8 h-64 md:h-80 bg-navy/30 rounded-lg overflow-hidden border border-white/10">
               {/* Here you would embed a map */}
               <div className="w-full h-full">
                 <iframe

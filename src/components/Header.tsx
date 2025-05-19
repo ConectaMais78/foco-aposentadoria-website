@@ -30,7 +30,7 @@ const Header = () => {
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-darkNavy/95 backdrop-blur-sm shadow-md py-3" 
+          ? "bg-deepNavy/95 backdrop-blur-sm shadow-lg py-3 border-b border-white/10" 
           : "bg-transparent py-6"
       }`}
     >
@@ -78,7 +78,7 @@ const Header = () => {
             </a>
             <Button
               asChild
-              className="bg-orange hover:bg-orangeLight text-white"
+              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300"
             >
               <a href="#contato">Contato</a>
             </Button>
@@ -97,7 +97,7 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-darkNavy border-t border-white/10">
+        <div className="md:hidden bg-deepNavy border-t border-white/10">
           <div className="container mx-auto py-4 flex flex-col gap-4">
             <a
               href="#sobre"
@@ -136,7 +136,7 @@ const Header = () => {
             </a>
             <Button
               asChild
-              className="bg-orange hover:bg-orangeLight text-white w-full"
+              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white w-full transition-all duration-300"
             >
               <a href="#contato" onClick={toggleMenu}>
                 Contato
