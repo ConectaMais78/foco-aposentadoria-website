@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,50 +38,50 @@ const Header = () => {
       <div className="container mx-auto px-6 md:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <a href="#home" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <span className="text-white font-playfair font-bold text-xl md:text-2xl">
                 Foco na <span className="text-orange">Aposentadoria</span>
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#sobre"
+            <Link
+              to="/#sobre"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Sobre
-            </a>
-            <a
-              href="#advogados"
+            </Link>
+            <Link
+              to="/blog"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
-              Advogados
-            </a>
-            <a
-              href="#servicos"
+              Blog
+            </Link>
+            <Link
+              to="/#servicos"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Serviços
-            </a>
-            <a
-              href="#depoimentos"
+            </Link>
+            <Link
+              to="/#depoimentos"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Depoimentos
-            </a>
-            <a
-              href="#faq"
+            </Link>
+            <Link
+              to="/#faq"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               FAQ
-            </a>
+            </Link>
             <Button
               asChild
               className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300"
             >
-              <a href="#contato">Contato</a>
+              <Link to="/#contato">Contato</Link>
             </Button>
           </nav>
 
@@ -99,48 +100,48 @@ const Header = () => {
       {isOpen && (
         <div className="md:hidden bg-deepNavy border-t border-white/10">
           <div className="container mx-auto py-4 flex flex-col gap-4">
-            <a
-              href="#sobre"
+            <Link
+              to="/#sobre"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Sobre
-            </a>
-            <a
-              href="#advogados"
+            </Link>
+            <Link
+              to="/blog"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
-              Advogados
-            </a>
-            <a
-              href="#servicos"
+              Blog
+            </Link>
+            <Link
+              to="/#servicos"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Serviços
-            </a>
-            <a
-              href="#depoimentos"
+            </Link>
+            <Link
+              to="/#depoimentos"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               Depoimentos
-            </a>
-            <a
-              href="#faq"
+            </Link>
+            <Link
+              to="/#faq"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
               onClick={toggleMenu}
             >
               FAQ
-            </a>
+            </Link>
             <Button
               asChild
               className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white w-full transition-all duration-300"
             >
-              <a href="#contato" onClick={toggleMenu}>
+              <Link to="/#contato" onClick={toggleMenu}>
                 Contato
-              </a>
+              </Link>
             </Button>
           </div>
         </div>
