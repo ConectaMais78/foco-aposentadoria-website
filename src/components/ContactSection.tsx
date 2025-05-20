@@ -1,17 +1,63 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Clock, Instagram } from "lucide-react";
+import { toast } from "@/components/ui/sonner";
 
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here we would handle the form submission
-    console.log("Form submitted");
-    // Show success message to user
-    alert("Mensagem enviada com sucesso! Entraremos em contato em breve.");
+    
+    // Create a message object with a unique ID
+    const message = {
+      id: Date.now(),
+      ...formData,
+      date: new Date().toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).replace('.', '')
+    };
+    
+    // Get existing messages from localStorage or initialize empty array
+    const existingMessages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+    
+    // Add new message to the array
+    const updatedMessages = [message, ...existingMessages];
+    
+    // Save back to localStorage
+    localStorage.setItem('contactMessages', JSON.stringify(updatedMessages));
+    
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: ""
+    });
+    
+    // Show success message
+    toast.success("Mensagem enviada com sucesso! Entraremos em contato em breve.");
   };
 
   return (
@@ -47,6 +93,8 @@ const ContactSection = () => {
                     type="text"
                     placeholder="Seu nome"
                     required
+                    value={formData.name}
+                    onChange={handleChange}
                     className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                   />
                 </div>
@@ -59,6 +107,8 @@ const ContactSection = () => {
                     type="email"
                     placeholder="Seu e-mail"
                     required
+                    value={formData.email}
+                    onChange={handleChange}
                     className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                   />
                 </div>
@@ -73,6 +123,8 @@ const ContactSection = () => {
                   type="tel"
                   placeholder="(00) 00000-0000"
                   required
+                  value={formData.phone}
+                  onChange={handleChange}
                   className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                 />
               </div>
@@ -86,6 +138,8 @@ const ContactSection = () => {
                   type="text"
                   placeholder="Assunto da mensagem"
                   required
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white"
                 />
               </div>
@@ -99,6 +153,8 @@ const ContactSection = () => {
                   placeholder="Descreva sua situação..."
                   rows={5}
                   required
+                  value={formData.message}
+                  onChange={handleChange}
                   className="bg-navy/50 border-gray-700 focus:border-orange focus:ring-orange text-white resize-none"
                 />
               </div>
@@ -189,19 +245,16 @@ const ContactSection = () => {
             </div>
 
             <div className="mt-8 h-64 md:h-80 bg-navy/30 rounded-lg overflow-hidden border border-white/10">
-              {/* Here you would embed a map */}
-              <div className="w-full h-full">
-                <iframe
-                  title="Mapa do escritório"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0761805513785!2d-46.65413572363864!3d-23.56529056137126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce599727838909%3A0x37fb388170b85486!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt-BR!2sbr!4v1684966837754!5m2!1spt-BR!2sbr"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
+              <iframe
+                title="Mapa do escritório"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0761805513785!2d-46.65413572363864!3d-23.56529056137126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce599727838909%3A0x37fb388170b85486!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt-BR!2sbr!4v1684966837754!5m2!1spt-BR!2sbr"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
