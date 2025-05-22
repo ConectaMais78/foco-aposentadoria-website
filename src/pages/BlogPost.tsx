@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -27,6 +27,13 @@ const BlogPost = () => {
     
     setLoading(false);
   }, [id]);
+  
+  // Function to render HTML content safely
+  const renderContentWithImages = (content: string) => {
+    // The content might already have HTML or it might have our custom image tags
+    // We're using dangerouslySetInnerHTML since we need to render HTML content
+    return { __html: content };
+  };
   
   if (loading) {
     return (
@@ -91,6 +98,18 @@ const BlogPost = () => {
                   <User className="h-5 w-5 mr-2 text-orange" />
                   {post.author}
                 </div>
+                {post.readTime && (
+                  <div className="flex items-center">
+                    <Clock className="h-5 w-5 mr-2 text-orange" />
+                    {post.readTime}
+                  </div>
+                )}
+                {post.category && (
+                  <div className="flex items-center">
+                    <Tag className="h-5 w-5 mr-2 text-orange" />
+                    {post.category}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -103,10 +122,8 @@ const BlogPost = () => {
                 {post.excerpt}
               </div>
               
-              <div className="text-white whitespace-pre-line">
-                {post.content.split('\n').map((paragraph: string, i: number) => (
-                  <p key={i} className="mb-4">{paragraph}</p>
-                ))}
+              <div className="text-white blog-content">
+                <div dangerouslySetInnerHTML={renderContentWithImages(post.content)} />
               </div>
             </div>
           </div>

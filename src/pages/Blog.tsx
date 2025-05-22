@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Book, Clock, Calendar, User } from "lucide-react";
+import { Book, Clock, Calendar, User, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -10,7 +10,7 @@ const Blog = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<any[]>([]);
   const [featuredPost, setFeaturedPost] = useState<any>(null);
-  const [categories] = useState([
+  const [categories, setCategories] = useState<string[]>([
     "Aposentadoria", 
     "INSS", 
     "Benefícios", 
@@ -25,11 +25,28 @@ const Blog = () => {
     const storedPosts = localStorage.getItem('blogPosts');
     if (storedPosts) {
       const parsedPosts = JSON.parse(storedPosts);
+      
+      // Get unique categories from posts
+      const uniqueCategories = Array.from(
+        new Set(parsedPosts.map((post: any) => post.category).filter(Boolean))
+      );
+      if (uniqueCategories.length > 0) {
+        setCategories(uniqueCategories as string[]);
+      }
+      
       setPosts(parsedPosts);
       
-      // Set the first post as featured if posts exist
-      if (parsedPosts.length > 0) {
-        setFeaturedPost(parsedPosts[0]);
+      // Find featured post - this should be set in the admin panel
+      const featured = parsedPosts.find((post: any) => post.isFeatured === true);
+      
+      if (featured) {
+        setFeaturedPost(featured);
+      } else if (parsedPosts.length > 0) {
+        // If no post is marked as featured, use the most recent one
+        const mostRecent = [...parsedPosts].sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        })[0];
+        setFeaturedPost(mostRecent);
       }
     }
   }, []);
@@ -110,6 +127,11 @@ const Blog = () => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-deepNavy to-transparent"></div>
+                    {featuredPost.category && (
+                      <span className="absolute top-3 right-3 bg-orange text-white text-xs font-medium px-2 py-1 rounded">
+                        {featuredPost.category}
+                      </span>
+                    )}
                   </div>
                   <div className="p-6 flex flex-col justify-center">
                     <div className="flex justify-between items-center text-gray-400 text-sm mb-3">
@@ -117,10 +139,18 @@ const Blog = () => {
                         <Calendar className="mr-1 h-4 w-4 text-orange" />
                         {featuredPost.date}
                       </span>
-                      <span className="flex items-center text-orange">
-                        <User className="mr-1 h-4 w-4" />
-                        {featuredPost.author}
-                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center text-orange">
+                          <User className="mr-1 h-4 w-4" />
+                          {featuredPost.author}
+                        </span>
+                        {featuredPost.readTime && (
+                          <span className="flex items-center">
+                            <Clock className="mr-1 h-4 w-4 text-orange" />
+                            {featuredPost.readTime}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{featuredPost.title}</h3>
                     <p className="text-gray-300 mb-6 line-clamp-3">{featuredPost.excerpt}</p>
