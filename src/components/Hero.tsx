@@ -22,7 +22,14 @@ const Hero = () => {
       {/* Centered content */}
       <div className="container mx-auto h-full relative flex flex-col items-center justify-center text-center px-6">
         <div className="animate-fade-in max-w-4xl glass-effect p-10 rounded-lg">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-playfair font-bold text-gradient leading-tight mb-6">
+          <div className="flex justify-center mb-8">
+            <img 
+              src="/lovable-uploads/3271b0b2-d83c-477b-94fd-3acc07068b7d.png" 
+              alt="Foco na Aposentadoria" 
+              className="w-64 md:w-80"
+            />
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-gradient leading-tight mb-6">
             Seu direito à <span className="text-orange">aposentadoria</span> é nossa prioridade
           </h1>
           <div className="h-1 w-32 bg-gradient-to-r from-orange/50 to-orange mx-auto mb-6"></div>
