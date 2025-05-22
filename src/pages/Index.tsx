@@ -9,6 +9,7 @@ import FaqSection from "@/components/FaqSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BlogSection from "@/components/BlogSection";
+import TeamSection from "@/components/TeamSection";
 
 const Index = () => {
   return (

@@ -39,12 +39,9 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img 
-                src="/lovable-uploads/904b173d-da19-4bfb-ab62-881994d31688.png" 
-                alt="Foco na Aposentadoria"
-                className="h-12 mr-2"
-              />
-              <span className="sr-only">Foco na Aposentadoria</span>
+              <span className="text-white font-playfair font-bold text-xl md:text-2xl">
+                Foco na <span className="text-orange">Aposentadoria</span>
+              </span>
             </Link>
           </div>
 
