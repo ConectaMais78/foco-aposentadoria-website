@@ -197,8 +197,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-1">Telefone</h4>
-                  <p className="text-gray-300">(11) 5555-5555</p>
-                  <p className="text-gray-300">(11) 99999-9999 (WhatsApp)</p>
+                  <p className="text-gray-300">+55 83 99103-4305</p>
                 </div>
               </div>
 
@@ -208,8 +207,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-1">E-mail</h4>
-                  <p className="text-gray-300">contato@foconaaposentadoria.com.br</p>
-                  <p className="text-gray-300">atendimento@foconaaposentadoria.com.br</p>
+                  <p className="text-gray-300">foconaaposentadoria@gmail.com</p>
                 </div>
               </div>
 
@@ -220,11 +218,11 @@ const ContactSection = () => {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-1">Endereço</h4>
                   <p className="text-gray-300">
-                    Av. Paulista, 1000, Sala 101
+                    Avenida Marechal Floriano Peixoto, 1636
                     <br />
-                    Bela Vista, São Paulo - SP
+                    Santo Antônio, Campina Grande - PB
                     <br />
-                    CEP: 01310-100
+                    CEP: 58402-000, Brasil
                   </p>
                 </div>
               </div>
@@ -236,9 +234,9 @@ const ContactSection = () => {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-1">Horário de atendimento</h4>
                   <p className="text-gray-300">
-                    Segunda a Sexta: 9h às 18h
+                    Segunda a Quinta: 8:00 às 18:00
                     <br />
-                    Sábado: 9h às 13h (com agendamento)
+                    Sexta-feira: 8:00 às 12:00
                   </p>
                 </div>
               </div>
@@ -247,7 +245,7 @@ const ContactSection = () => {
             <div className="mt-8 h-64 md:h-80 bg-navy/30 rounded-lg overflow-hidden border border-white/10">
               <iframe
                 title="Mapa do escritório"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0761805513785!2d-46.65413572363864!3d-23.56529056137126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce599727838909%3A0x37fb388170b85486!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt-BR!2sbr!4v1684966837754!5m2!1spt-BR!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.7235982890945!2d-35.88149352595876!3d-7.165034070423729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ac78b275b6e0ad%3A0x1234567890abcdef!2sAv.%20Mal.%20Floriano%20Peixoto%2C%201636%20-%20Santo%20Ant%C3%B4nio%2C%20Campina%20Grande%20-%20PB%2C%2058402-000!5e0!3m2!1spt-BR!2sbr!4v1735004400000!5m2!1spt-BR!2sbr"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

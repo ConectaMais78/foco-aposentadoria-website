@@ -91,8 +91,6 @@ const Footer = () => {
                   foconaaposentadoria@gmail.com
                 </a>
               </li>
-              <li>Avenida Marechal Floriano Peixoto, 1636</li>
-              <li>Santo Antônio, Campina Grande - PB</li>
               <li>CEP: 58402-000, Brasil</li>
               <li className="mt-3 text-sm">
                 <strong>Horário de Atendimento:</strong><br />
