@@ -82,18 +82,23 @@ const Footer = () => {
             <div className="h-1 w-16 bg-gradient-to-r from-orange/50 to-orange mb-4"></div>
             <ul className="space-y-2 text-white/80">
               <li>
-                <a href="tel:+551155555555" className="hover:text-orange transition-colors">
-                  (11) 5555-5555
+                <a href="tel:+5583991034305" className="hover:text-orange transition-colors">
+                  +55 83 99103-4305
                 </a>
               </li>
               <li>
-                <a href="mailto:contato@foconaaposentadoria.com.br" className="hover:text-orange transition-colors">
-                  contato@foconaaposentadoria.com.br
+                <a href="mailto:foconaaposentadoria@gmail.com" className="hover:text-orange transition-colors">
+                  foconaaposentadoria@gmail.com
                 </a>
               </li>
-              <li>Av. Paulista, 1000, Sala 101</li>
-              <li>Bela Vista, São Paulo - SP</li>
-              <li>CEP: 01310-100</li>
+              <li>Avenida Marechal Floriano Peixoto, 1636</li>
+              <li>Santo Antônio, Campina Grande - PB</li>
+              <li>CEP: 58402-000, Brasil</li>
+              <li className="mt-3 text-sm">
+                <strong>Horário de Atendimento:</strong><br />
+                Segunda a Quinta: 8:00 às 18:00<br />
+                Sexta-feira: 8:00 às 12:00
+              </li>
             </ul>
           </div>
         </div>

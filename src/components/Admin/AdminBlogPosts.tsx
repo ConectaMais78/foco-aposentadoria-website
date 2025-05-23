@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,11 +40,11 @@ const AdminBlogPosts = () => {
   
   const FormSchema = z.object({
     title: z.string().min(1, "Título é obrigatório"),
-    excerpt: z.string().optional(),
+    excerpt: z.string().min(1, "Resumo é obrigatório"),
     content: z.string().min(1, "Conteúdo é obrigatório"),
     image: z.string().optional(),
     author: z.string().min(1, "Autor é obrigatório"),
-    category: z.string().optional(),
+    category: z.string().min(1, "Categoria é obrigatória"),
   });
   
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -57,19 +58,6 @@ const AdminBlogPosts = () => {
       category: "",
     },
   });
-  
-  const emptyPost: BlogPost = {
-    id: Date.now(),
-    title: "",
-    excerpt: "",
-    content: "",
-    image: "",
-    date: new Date().toLocaleDateString('pt-BR', {day: '2-digit', month: 'short', year: 'numeric'})
-      .replace('.', ''),
-    author: "",
-    category: "",
-    readTime: "0 min",
-  };
   
   useEffect(() => {
     loadPosts();
@@ -144,7 +132,8 @@ const AdminBlogPosts = () => {
   };
   
   const handleSave = (data: z.infer<typeof FormSchema>) => {
-    if (!editing) return;
+    console.log("Saving blog post data:", data);
+    console.log("Current editing state:", editing);
     
     // Process content to handle images
     const processedContent = processContent(data.content);
@@ -158,45 +147,61 @@ const AdminBlogPosts = () => {
       year: 'numeric'
     }).replace('.', '');
     
-    const updatedPost = {
-      ...editing,
-      title: data.title,
-      excerpt: data.excerpt || "",
-      content: processedContent,
-      image: data.image || "",
-      author: data.author,
-      date: editing.id === emptyPost.id ? currentDate : editing.date,
-      category: data.category || "",
-      readTime
-    };
-    
+    let updatedPost: BlogPost;
     let updatedPosts: BlogPost[];
     
-    if (editing.id === emptyPost.id) {
-      // New post - mark it as featured and remove feature from other posts if needed
+    if (!editing || editing.id === 0 || editing.title === "") {
+      // Creating a new post
+      updatedPost = {
+        id: Date.now(),
+        title: data.title,
+        excerpt: data.excerpt,
+        content: processedContent,
+        image: data.image || "",
+        author: data.author,
+        date: currentDate,
+        category: data.category,
+        readTime,
+        isFeatured: false
+      };
+      
+      // Mark the newest post as featured and remove feature from others
       updatedPosts = posts.map(post => ({
         ...post,
-        isFeatured: false // Remove feature flag from all existing posts
+        isFeatured: false
       }));
       
-      // Add the new post with featured flag
-      updatedPosts.push({
-        ...updatedPost,
-        isFeatured: true
-      });
+      updatedPost.isFeatured = true;
+      updatedPosts.push(updatedPost);
     } else {
-      // Updating existing post - keep current featured status
+      // Updating existing post
+      updatedPost = {
+        ...editing,
+        title: data.title,
+        excerpt: data.excerpt,
+        content: processedContent,
+        image: data.image || "",
+        author: data.author,
+        category: data.category,
+        readTime
+      };
+      
       updatedPosts = posts.map(post => 
         post.id === editing.id ? updatedPost : post
       );
     }
     
+    console.log("Updated posts array:", updatedPosts);
+    
     setPosts(updatedPosts);
     localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
+    
+    // Reset form and state
     setEditing(null);
     setShowForm(false);
-    toast.success("Artigo salvo com sucesso!");
     form.reset();
+    
+    toast.success("Artigo salvo e publicado com sucesso!");
   };
   
   const handleDelete = (id: number) => {
@@ -212,8 +217,13 @@ const AdminBlogPosts = () => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
       
-      updatedPosts.forEach(post => post.isFeatured = false);
-      sortedPosts[0].isFeatured = true;
+      if (sortedPosts.length > 0) {
+        updatedPosts.forEach(post => post.isFeatured = false);
+        const mostRecentPost = updatedPosts.find(post => post.id === sortedPosts[0].id);
+        if (mostRecentPost) {
+          mostRecentPost.isFeatured = true;
+        }
+      }
     }
     
     setPosts(updatedPosts);
@@ -229,11 +239,7 @@ const AdminBlogPosts = () => {
   };
   
   const handleCreateNew = () => {
-    const newPost = {
-      ...emptyPost,
-      id: Date.now(),
-    };
-    setEditing(newPost);
+    setEditing(null);
     setShowForm(true);
     
     form.reset({
@@ -261,7 +267,7 @@ const AdminBlogPosts = () => {
   };
   
   const insertImage = () => {
-    if (!selectedImage || !editing) return;
+    if (!selectedImage) return;
     
     const imageTag = `[img:${selectedImage}]`;
     const currentContent = form.getValues("content");
@@ -334,7 +340,7 @@ const AdminBlogPosts = () => {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-200">Categoria</FormLabel>
+                      <FormLabel className="text-gray-200">Categoria*</FormLabel>
                       <FormControl>
                         <select
                           {...field}
@@ -386,7 +392,7 @@ const AdminBlogPosts = () => {
                 name="excerpt"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-200">Resumo</FormLabel>
+                    <FormLabel className="text-gray-200">Resumo*</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
@@ -459,7 +465,7 @@ const AdminBlogPosts = () => {
                   className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white"
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  Salvar Artigo
+                  Salvar e Publicar
                 </Button>
               </div>
             </form>

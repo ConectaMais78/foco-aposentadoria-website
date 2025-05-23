@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -26,6 +27,24 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    // If we're not on the home page, navigate there first
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
+    // If we're on the home page, scroll to the section
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <header 
@@ -47,41 +66,41 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link
-              to="/#sobre"
+            <button
+              onClick={() => scrollToSection('sobre')}
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Sobre
-            </Link>
+            </button>
             <Link
               to="/blog"
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Blog
             </Link>
-            <Link
-              to="/#servicos"
+            <button
+              onClick={() => scrollToSection('servicos')}
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Serviços
-            </Link>
-            <Link
-              to="/#depoimentos"
+            </button>
+            <button
+              onClick={() => scrollToSection('depoimentos')}
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               Depoimentos
-            </Link>
-            <Link
-              to="/#faq"
+            </button>
+            <button
+              onClick={() => scrollToSection('faq')}
               className="text-white/80 hover:text-white transition-colors font-medium"
             >
               FAQ
-            </Link>
+            </button>
             <Button
-              asChild
+              onClick={() => scrollToSection('contato')}
               className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300"
             >
-              <Link to="/#contato">Contato</Link>
+              Contato
             </Button>
           </nav>
 
@@ -100,13 +119,12 @@ const Header = () => {
       {isOpen && (
         <div className="md:hidden bg-deepNavy border-t border-white/10">
           <div className="container mx-auto py-4 flex flex-col gap-4">
-            <Link
-              to="/#sobre"
-              className="text-white/80 hover:text-white transition-colors font-medium py-2"
-              onClick={toggleMenu}
+            <button
+              onClick={() => scrollToSection('sobre')}
+              className="text-white/80 hover:text-white transition-colors font-medium py-2 text-left"
             >
               Sobre
-            </Link>
+            </button>
             <Link
               to="/blog"
               className="text-white/80 hover:text-white transition-colors font-medium py-2"
@@ -114,34 +132,29 @@ const Header = () => {
             >
               Blog
             </Link>
-            <Link
-              to="/#servicos"
-              className="text-white/80 hover:text-white transition-colors font-medium py-2"
-              onClick={toggleMenu}
+            <button
+              onClick={() => scrollToSection('servicos')}
+              className="text-white/80 hover:text-white transition-colors font-medium py-2 text-left"
             >
               Serviços
-            </Link>
-            <Link
-              to="/#depoimentos"
-              className="text-white/80 hover:text-white transition-colors font-medium py-2"
-              onClick={toggleMenu}
+            </button>
+            <button
+              onClick={() => scrollToSection('depoimentos')}
+              className="text-white/80 hover:text-white transition-colors font-medium py-2 text-left"
             >
               Depoimentos
-            </Link>
-            <Link
-              to="/#faq"
-              className="text-white/80 hover:text-white transition-colors font-medium py-2"
-              onClick={toggleMenu}
+            </button>
+            <button
+              onClick={() => scrollToSection('faq')}
+              className="text-white/80 hover:text-white transition-colors font-medium py-2 text-left"
             >
               FAQ
-            </Link>
+            </button>
             <Button
-              asChild
+              onClick={() => scrollToSection('contato')}
               className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white w-full transition-all duration-300"
             >
-              <Link to="/#contato" onClick={toggleMenu}>
-                Contato
-              </Link>
+              Contato
             </Button>
           </div>
         </div>
