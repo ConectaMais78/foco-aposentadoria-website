@@ -1,268 +1,190 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   Users, 
   FileText, 
   MessageSquare, 
-  Eye, 
+  Eye,
   TrendingUp,
   Calendar,
   Clock,
-  BarChart3,
-  Globe,
   Activity
 } from 'lucide-react';
 
 const Dashboard = () => {
-  // Dados mockados - em produção viria de uma API
-  const stats = {
-    totalVisits: 15420,
-    monthlyVisits: 2850,
-    blogPosts: 24,
-    messages: 12,
-    teamMembers: 6,
-    publishedPages: 8
-  };
+  const { user } = useAuth();
 
-  const recentPosts = [
+  const stats = [
     {
-      id: '1',
-      title: 'Como requerer aposentadoria por idade',
-      author: 'Dr. João Silva',
-      date: '2024-01-15',
-      status: 'published',
-      views: 1250
+      title: 'Visitantes do Mês',
+      value: '2,847',
+      change: '+12.5%',
+      icon: Eye,
+      color: 'from-blue-500 to-blue-600'
     },
     {
-      id: '2',
-      title: 'Revisão de benefícios: quando solicitar?',
-      author: 'Dra. Maria Santos',
-      date: '2024-01-12',
-      status: 'draft',
-      views: 0
+      title: 'Posts do Blog',
+      value: '24',
+      change: '+3',
+      icon: FileText,
+      color: 'from-green-500 to-green-600'
+    },
+    {
+      title: 'Mensagens',
+      value: '18',
+      change: '+6',
+      icon: MessageSquare,
+      color: 'from-orange to-orangeLight'
+    },
+    {
+      title: 'Usuários Ativos',
+      value: '156',
+      change: '+8.2%',
+      icon: Users,
+      color: 'from-purple-500 to-purple-600'
     }
   ];
 
-  const recentMessages = [
+  const recentActivities = [
     {
-      id: '1',
-      name: 'Ana Costa',
-      subject: 'Dúvida sobre aposentadoria especial',
-      date: '2024-01-16',
-      status: 'unread'
+      title: 'Nova mensagem de contato recebida',
+      time: '2 min atrás',
+      type: 'message'
     },
     {
-      id: '2',
-      name: 'Carlos Silva',
-      subject: 'Consultoria para revisão',
-      date: '2024-01-15',
-      status: 'read'
+      title: 'Post "Planejamento de Aposentadoria" publicado',
+      time: '1 hora atrás',
+      type: 'blog'
+    },
+    {
+      title: 'Página "Sobre" atualizada',
+      time: '3 horas atrás',
+      type: 'page'
+    },
+    {
+      title: 'Novo usuário cadastrado',
+      time: '5 horas atrás',
+      type: 'user'
     }
-  ];
-
-  const visitTrend = [
-    { month: 'Nov', visits: 12400 },
-    { month: 'Dez', visits: 14200 },
-    { month: 'Jan', visits: 15420 }
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl font-bold text-white font-playfair">Dashboard</h1>
-          <p className="text-gray-300 mt-2">Bem-vindo ao painel administrativo</p>
-        </div>
-        <div className="flex items-center text-sm text-gray-400 bg-navy/50 px-4 py-2 rounded-lg border border-white/10">
-          <Calendar className="h-4 w-4 mr-2" />
-          {new Date().toLocaleDateString('pt-BR', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
+    <div className="space-y-8 animate-fade-in">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-navy/80 to-darkNavy/80 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-white font-playfair">
+              Bem-vindo, {user?.name}!
+            </h1>
+            <p className="text-gray-300 mt-1">
+              Aqui está um resumo do seu painel administrativo
+            </p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="text-right">
+              <p className="text-sm text-gray-400">Último acesso</p>
+              <p className="text-white">
+                {user?.lastLogin ? new Date(user.lastLogin).toLocaleString('pt-BR') : 'Primeiro acesso'}
+              </p>
+            </div>
+            <div className="w-12 h-12 bg-gradient-to-r from-orange to-orangeLight rounded-full flex items-center justify-center animate-glow">
+              <Activity className="h-6 w-6 text-white" />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Cards de estatísticas */}
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-blue-500/30 hover-lift backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-200">
-              Visitas Totais
-            </CardTitle>
-            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <Eye className="h-4 w-4 text-blue-400" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{stats.totalVisits.toLocaleString()}</div>
-            <div className="flex items-center text-xs text-green-400 mt-2">
-              <TrendingUp className="h-3 w-3 mr-1" />
-              +12% este mês
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-green-500/20 to-green-600/20 border-green-500/30 hover-lift backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-green-200">
-              Posts do Blog
-            </CardTitle>
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <FileText className="h-4 w-4 text-green-400" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{stats.blogPosts}</div>
-            <div className="text-xs text-gray-400 mt-2">
-              {recentPosts.filter(p => p.status === 'published').length} publicados
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-orange-500/20 to-orange-600/20 border-orange-500/30 hover-lift backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-orange-200">
-              Mensagens
-            </CardTitle>
-            <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center animate-pulse">
-              <MessageSquare className="h-4 w-4 text-orange-400" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{stats.messages}</div>
-            <div className="text-xs text-orange-400 mt-2">
-              {recentMessages.filter(m => m.status === 'unread').length} não lidas
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border-purple-500/30 hover-lift backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-purple-200">
-              Equipe
-            </CardTitle>
-            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-              <Users className="h-4 w-4 text-purple-400" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{stats.teamMembers}</div>
-            <div className="text-xs text-gray-400 mt-2">
-              membros ativos
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Postagens recentes */}
-        <Card className="bg-gradient-to-br from-navy/50 to-darkNavy/50 border-white/10 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
-                <FileText className="h-5 w-5 text-green-400" />
-              </div>
-              Postagens Recentes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentPosts.map((post) => (
-                <div key={post.id} className="p-4 bg-darkNavy/30 rounded-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover-lift">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white text-sm mb-1">{post.title}</h4>
-                      <div className="flex items-center text-xs text-gray-400 space-x-4">
-                        <span>Por {post.author}</span>
-                        <span>{new Date(post.date).toLocaleDateString('pt-BR')}</span>
-                        {post.views > 0 && (
-                          <div className="flex items-center">
-                            <Eye className="h-3 w-3 mr-1" />
-                            {post.views} visualizações
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <span className={`px-2 py-1 text-xs rounded-full border ${
-                      post.status === 'published' 
-                        ? 'bg-green-500/20 text-green-400 border-green-500/30' 
-                        : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
-                    }`}>
-                      {post.status === 'published' ? 'Publicado' : 'Rascunho'}
+        {stats.map((stat, index) => (
+          <Card key={index} className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10 hover-lift">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-sm font-medium">{stat.title}</p>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <p className="text-2xl font-bold text-white">{stat.value}</p>
+                    <span className="text-green-400 text-sm font-medium flex items-center">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      {stat.change}
                     </span>
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-full flex items-center justify-center animate-glow`}>
+                  <stat.icon className="h-6 w-6 text-white" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Activities */}
+        <Card className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center">
+              <Clock className="h-5 w-5 mr-2 text-orange" />
+              Atividades Recentes
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {recentActivities.map((activity, index) => (
+              <div key={index} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                <div className="w-2 h-2 bg-orange rounded-full animate-pulse"></div>
+                <div className="flex-1">
+                  <p className="text-white text-sm">{activity.title}</p>
+                  <p className="text-gray-400 text-xs">{activity.time}</p>
+                </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
 
-        {/* Mensagens recentes */}
-        <Card className="bg-gradient-to-br from-navy/50 to-darkNavy/50 border-white/10 backdrop-blur-sm">
+        {/* Quick Actions */}
+        <Card className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center mr-3">
-                <MessageSquare className="h-5 w-5 text-orange-400" />
-              </div>
-              Mensagens Recentes
+            <CardTitle className="text-white flex items-center">
+              <Calendar className="h-5 w-5 mr-2 text-orange" />
+              Ações Rápidas
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentMessages.map((message) => (
-                <div key={message.id} className="p-4 bg-darkNavy/30 rounded-lg border border-white/5 hover:border-white/10 transition-all duration-300 hover-lift">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center mb-1">
-                        <h4 className="font-medium text-white text-sm">{message.name}</h4>
-                        {message.status === 'unread' && (
-                          <div className="ml-2 w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                        )}
-                      </div>
-                      <p className="text-xs text-gray-300 mb-1">{message.subject}</p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(message.date).toLocaleDateString('pt-BR')}
-                      </p>
-                    </div>
-                  </div>
+          <CardContent className="space-y-3">
+            <button className="w-full text-left p-4 rounded-lg bg-gradient-to-r from-orange/20 to-orangeLight/20 border border-orange/30 hover:from-orange/30 hover:to-orangeLight/30 transition-all duration-300 hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-white font-medium">Criar Nova Postagem</p>
+                  <p className="text-gray-400 text-sm">Adicionar conteúdo ao blog</p>
                 </div>
-              ))}
-            </div>
+                <FileText className="h-5 w-5 text-orange" />
+              </div>
+            </button>
+            
+            <button className="w-full text-left p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-white font-medium">Ver Mensagens</p>
+                  <p className="text-gray-400 text-sm">Responder contatos</p>
+                </div>
+                <MessageSquare className="h-5 w-5 text-gray-400" />
+              </div>
+            </button>
+            
+            <button className="w-full text-left p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-white font-medium">Gerenciar Páginas</p>
+                  <p className="text-gray-400 text-sm">Editar conteúdo do site</p>
+                </div>
+                <Users className="h-5 w-5 text-gray-400" />
+              </div>
+            </button>
           </CardContent>
         </Card>
       </div>
-
-      {/* Gráfico de visitas (simulado) */}
-      <Card className="bg-gradient-to-br from-navy/50 to-darkNavy/50 border-white/10 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center text-white">
-            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
-              <BarChart3 className="h-5 w-5 text-blue-400" />
-            </div>
-            Tendência de Visitas
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-end justify-between h-32 space-x-4">
-            {visitTrend.map((item, index) => (
-              <div key={item.month} className="flex flex-col items-center flex-1">
-                <div 
-                  className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-lg transition-all duration-1000 ease-out"
-                  style={{ 
-                    height: `${(item.visits / Math.max(...visitTrend.map(v => v.visits))) * 100}%`,
-                    animationDelay: `${index * 200}ms`
-                  }}
-                ></div>
-                <div className="text-xs text-gray-400 mt-2">{item.month}</div>
-                <div className="text-xs text-white font-medium">{item.visits.toLocaleString()}</div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
