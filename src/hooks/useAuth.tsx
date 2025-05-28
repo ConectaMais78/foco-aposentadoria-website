@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const mockUsers: User[] = [
       {
         id: '1',
-        email: 'admin@foconaaposentadoria.com',
+        email: 'pnilson93@gmail.com',
         name: 'Administrador',
         role: 'admin',
         createdAt: new Date().toISOString(),
@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     ];
 
     const foundUser = mockUsers.find(u => u.email === email);
-    if (foundUser && password === 'admin123') {
+    if (foundUser && password === 'Sevilla2018') {
       const userWithLogin = { ...foundUser, lastLogin: new Date().toISOString() };
       setUser(userWithLogin);
       localStorage.setItem('adminUser', JSON.stringify(userWithLogin));

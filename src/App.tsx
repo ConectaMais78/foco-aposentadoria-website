@@ -12,6 +12,8 @@ import BlogPost from "./pages/BlogPost";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminLogin from "./components/Admin/AdminLogin";
 import Dashboard from "./components/Admin/Dashboard";
+import AdminPages from "./components/Admin/AdminPages";
+import AdminBlog from "./components/Admin/AdminBlog";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="pages" element={<AdminPages />} />
+              <Route path="blog" element={<AdminBlog />} />
               <Route index element={<Dashboard />} />
             </Route>
             <Route path="*" element={<NotFound />} />
