@@ -28,10 +28,7 @@ const BlogPost = () => {
     setLoading(false);
   }, [id]);
   
-  // Function to render HTML content safely
   const renderContentWithImages = (content: string) => {
-    // The content might already have HTML or it might have our custom image tags
-    // We're using dangerouslySetInnerHTML since we need to render HTML content
     return { __html: content };
   };
   
@@ -41,7 +38,7 @@ const BlogPost = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-deepNavy flex items-center justify-center">
-        <div className="text-white text-xl">Carregando...</div>
+        <div className="text-white text-xl animate-pulse">Carregando...</div>
       </div>
     );
   }
@@ -51,11 +48,11 @@ const BlogPost = () => {
       <div className="min-h-screen bg-deepNavy flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
+          <div className="text-center animate-fade-in">
             <h2 className="text-2xl font-bold text-white mb-4">Artigo não encontrado</h2>
             <Button 
               onClick={() => navigate("/blog")}
-              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white"
+              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 hover:scale-105"
             >
               Voltar para o Blog
             </Button>
@@ -67,163 +64,178 @@ const BlogPost = () => {
   }
   
   return (
-    <div className="min-h-screen bg-deepNavy flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-deepNavy via-navy to-deepNavy">
       <Header />
       
-      <div className="flex-1">
-        {/* Hero Section with Featured Image */}
-        <div className="relative h-[50vh] w-full">
-          <img 
-            src={post.image || '/placeholder.svg'} 
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-deepNavy/60 via-deepNavy/40 to-deepNavy"></div>
-          
-          <div className="absolute bottom-0 left-0 w-full p-8">
-            <div className="container mx-auto">
-              <Button 
-                variant="outline"
-                onClick={() => navigate("/blog")}
-                className="mb-6 bg-navy/50 border-white/20 text-white hover:bg-navy"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Voltar para o Blog
-              </Button>
-              
-              {/* Category Badge */}
-              {post.category && (
-                <span className="inline-block bg-orange text-white text-sm font-medium px-3 py-1 rounded-full mb-4">
-                  {post.category}
-                </span>
-              )}
-              
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">{post.title}</h1>
-              
-              {/* Article Meta */}
-              <div className="flex flex-wrap gap-6 text-gray-300">
-                <div className="flex items-center">
-                  <User className="h-5 w-5 mr-2 text-orange" />
-                  <span className="font-medium">{post.author}</span>
-                </div>
-                <div className="flex items-center">
-                  <Calendar className="h-5 w-5 mr-2 text-orange" />
-                  {post.date}
-                </div>
-                {post.readTime && (
-                  <div className="flex items-center">
-                    <Clock className="h-5 w-5 mr-2 text-orange" />
-                    {post.readTime}
-                  </div>
-                )}
+      {/* Hero Section */}
+      <div className="relative pt-24 pb-16">
+        <div className="container mx-auto px-6 md:px-8">
+          <div className="max-w-4xl mx-auto animate-fade-in">
+            <Button 
+              variant="ghost"
+              onClick={() => navigate("/blog")}
+              className="mb-8 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+              Voltar para o Blog
+            </Button>
+            
+            {/* Category Badge */}
+            {post.category && (
+              <span className="inline-block bg-gradient-to-r from-orange to-orangeLight text-white text-sm font-medium px-4 py-2 rounded-full mb-6 animate-slide-in-left shadow-lg">
+                {post.category}
+              </span>
+            )}
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight animate-slide-in-right">{post.title}</h1>
+            
+            {/* Article Meta */}
+            <div className="flex flex-wrap gap-6 text-gray-300 mb-8 animate-fade-in [&>div]:hover:text-orange [&>div]:transition-colors [&>div]:duration-300">
+              <div className="flex items-center">
+                <User className="h-5 w-5 mr-2 text-orange" />
+                <span className="font-medium">{post.author}</span>
               </div>
+              <div className="flex items-center">
+                <Calendar className="h-5 w-5 mr-2 text-orange" />
+                {post.date}
+              </div>
+              {post.readTime && (
+                <div className="flex items-center">
+                  <Clock className="h-5 w-5 mr-2 text-orange" />
+                  {post.readTime}
+                </div>
+              )}
             </div>
           </div>
         </div>
-        
-        {/* Article Content */}
-        <div className="container mx-auto py-12">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Main Content */}
-              <article className="lg:w-3/4">
-                <div className="bg-navy/30 border border-white/10 rounded-lg p-8 md:p-12">
-                  {/* Article Summary */}
-                  <div className="text-lg text-gray-300 italic mb-8 border-l-4 border-orange pl-6 py-4 bg-orange/5 rounded-r-lg">
-                    <p className="font-medium text-orange mb-2">Resumo do artigo:</p>
-                    {post.excerpt}
-                  </div>
-                  
-                  {/* Article Content */}
-                  <div className="prose prose-invert prose-lg max-w-none">
-                    <div className="text-white blog-content leading-relaxed">
-                      <div dangerouslySetInnerHTML={renderContentWithImages(post.content)} />
-                    </div>
-                  </div>
-                  
-                  {/* Article Footer */}
-                  <div className="mt-12 pt-8 border-t border-white/10">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                      <div className="flex items-center gap-4">
-                        <span className="text-gray-300 font-medium">Compartilhar:</span>
-                        <div className="flex gap-2">
-                          <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors"
-                          >
-                            <Facebook className="h-4 w-4" />
-                          </a>
-                          <a
-                            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-sky-500 hover:bg-sky-600 text-white rounded-full transition-colors"
-                          >
-                            <Twitter className="h-4 w-4" />
-                          </a>
-                          <a
-                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-blue-700 hover:bg-blue-800 text-white rounded-full transition-colors"
-                          >
-                            <Linkedin className="h-4 w-4" />
-                          </a>
-                        </div>
-                      </div>
-                      
-                      <div className="text-sm text-gray-400">
-                        Publicado em {post.date}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
+      </div>
+
+      {/* Featured Image */}
+      <div className="container mx-auto px-6 md:px-8 mb-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl animate-scale-in group">
+            <img 
+              src={post.image || '/placeholder.svg'} 
+              alt={post.title}
+              className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Article Content */}
+      <div className="container mx-auto px-6 md:px-8 pb-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            
+            {/* Main Content */}
+            <article className="lg:col-span-3 animate-fade-in">
               
-              {/* Sidebar */}
-              <aside className="lg:w-1/4">
-                <div className="sticky top-8 space-y-6">
-                  {/* Contact CTA */}
-                  <div className="bg-gradient-to-br from-orange/20 to-orangeLight/20 border border-orange/30 rounded-lg p-6">
-                    <h3 className="text-white font-bold text-lg mb-3">Precisa de ajuda?</h3>
-                    <p className="text-gray-300 text-sm mb-4">
-                      Nossa equipe está pronta para ajudar você com seus direitos previdenciários.
-                    </p>
-                    <Button 
-                      onClick={() => navigate("/#contato")}
-                      className="w-full bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white"
-                    >
-                      Entre em Contato
-                    </Button>
+              {/* Article Summary */}
+              <div className="bg-gradient-to-r from-orange/10 to-orangeLight/10 border-l-4 border-orange rounded-r-lg p-6 mb-12 transition-all duration-300 hover:shadow-lg hover:from-orange/15 hover:to-orangeLight/15">
+                <p className="text-orange font-semibold mb-3 flex items-center">
+                  <Tag className="mr-2 h-4 w-4" />
+                  Resumo do artigo
+                </p>
+                <p className="text-gray-300 text-lg leading-relaxed">{post.excerpt}</p>
+              </div>
+              
+              {/* Article Content */}
+              <div className="prose prose-invert prose-lg max-w-none">
+                <div className="text-white/90 leading-relaxed text-lg space-y-6">
+                  <div 
+                    dangerouslySetInnerHTML={renderContentWithImages(post.content)}
+                    className="blog-content [&>p]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-white [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-3 [&>ul]:space-y-2 [&>li]:text-gray-300 [&>strong]:text-white [&>em]:text-orange/80"
+                  />
+                </div>
+              </div>
+              
+              {/* Sharing Section */}
+              <div className="mt-16 pt-8 border-t border-white/20">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 animate-fade-in">
+                  <div className="flex items-center gap-4">
+                    <span className="text-gray-300 font-medium flex items-center">
+                      <Share2 className="mr-2 h-4 w-4 text-orange" />
+                      Compartilhar:
+                    </span>
+                    <div className="flex gap-3">
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                      >
+                        <Facebook className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-sky-500 hover:bg-sky-600 text-white rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                      >
+                        <Twitter className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-blue-700 hover:bg-blue-800 text-white rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                      </a>
+                    </div>
                   </div>
                   
-                  {/* Article Info */}
-                  <div className="bg-navy/30 border border-white/10 rounded-lg p-6">
-                    <h3 className="text-white font-bold text-lg mb-4">Informações do Artigo</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Autor:</span>
-                        <span className="text-white">{post.author}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Categoria:</span>
-                        <span className="text-orange">{post.category}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Tempo de leitura:</span>
-                        <span className="text-white">{post.readTime}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Data:</span>
-                        <span className="text-white">{post.date}</span>
-                      </div>
+                  <div className="text-sm text-gray-400">
+                    Publicado em {post.date}
+                  </div>
+                </div>
+              </div>
+            </article>
+            
+            {/* Sidebar */}
+            <aside className="lg:col-span-1">
+              <div className="sticky top-24 space-y-8 animate-slide-in-right">
+                
+                {/* Contact CTA */}
+                <div className="bg-gradient-to-br from-orange/20 to-orangeLight/20 border border-orange/30 rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:border-orange/50 group">
+                  <h3 className="text-white font-bold text-lg mb-3 group-hover:text-orange transition-colors">Precisa de ajuda?</h3>
+                  <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+                    Nossa equipe está pronta para ajudar você com seus direitos previdenciários.
+                  </p>
+                  <Button 
+                    onClick={() => navigate("/#contato")}
+                    className="w-full bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    Entre em Contato
+                  </Button>
+                </div>
+                
+                {/* Article Info */}
+                <div className="bg-navy/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm transition-all duration-300 hover:bg-navy/50 hover:border-white/20">
+                  <h3 className="text-white font-bold text-lg mb-6 text-center">Informações do Artigo</h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-gray-400 text-sm">Autor:</span>
+                      <span className="text-white font-medium">{post.author}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-gray-400 text-sm">Categoria:</span>
+                      <span className="text-orange font-medium">{post.category}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-gray-400 text-sm">Tempo de leitura:</span>
+                      <span className="text-white font-medium">{post.readTime}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-gray-400 text-sm">Data:</span>
+                      <span className="text-white font-medium">{post.date}</span>
                     </div>
                   </div>
                 </div>
-              </aside>
-            </div>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
