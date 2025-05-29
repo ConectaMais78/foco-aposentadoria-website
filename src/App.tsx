@@ -30,11 +30,9 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="pages" element={<AdminPages />} />
-              <Route path="blog" element={<AdminBlog />} />
-            </Route>
+            <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+            <Route path="/admin/pages" element={<AdminLayout><AdminPages /></AdminLayout>} />
+            <Route path="/admin/blog" element={<AdminLayout><AdminBlog /></AdminLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

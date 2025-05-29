@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -20,7 +19,11 @@ import {
   Search
 } from 'lucide-react';
 
-const AdminLayout = () => {
+interface AdminLayoutProps {
+  children: React.ReactNode;
+}
+
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { user, logout, hasPermission } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
@@ -206,7 +209,7 @@ const AdminLayout = () => {
         {/* Conteúdo da página */}
         <main className="p-6">
           <div className="max-w-7xl mx-auto">
-            <Outlet />
+            {children}
           </div>
         </main>
       </div>
