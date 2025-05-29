@@ -1,10 +1,7 @@
-
 import React from "react";
 import { Shield, Gavel, Handshake } from "lucide-react";
-
 const AboutSection = () => {
-  return (
-    <section id="sobre" className="section-padding bg-white">
+  return <section id="sobre" className="section-padding bg-white">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
@@ -61,28 +58,18 @@ const AboutSection = () => {
           <div className="md:w-1/3">
             <div className="relative">
               <div className="absolute inset-0 bg-orange/20 rounded-lg blur-xl"></div>
-              <img
-                src="/placeholder.svg"
-                alt="Escritório Foco na Aposentadoria"
-                className="relative rounded-lg shadow-md w-full"
-              />
+              <img alt="Escritório Foco na Aposentadoria" className="relative rounded-lg shadow-md w-full" src="/lovable-uploads/0f271489-d23d-48a2-8d42-f553e784dcde.jpg" />
             </div>
           </div>
           <div className="md:w-2/3">
             <h3 className="text-2xl font-bold text-navy mb-4">
               Nossa História
             </h3>
-            <p className="text-gray-600 mb-4">
-              Fundado em 2008 pelo Dr. Carlos Silva, o escritório Foco na Aposentadoria nasceu da paixão por defender os direitos previdenciários dos cidadãos brasileiros. Após anos trabalhando em grandes escritórios, Dr. Carlos decidiu criar uma firma especializada exclusivamente no direito previdenciário.
-            </p>
-            <p className="text-gray-600">
-              Hoje, contamos com uma equipe de advogados especializados e já ajudamos mais de 5.000 clientes a conquistar seus benefícios previdenciários. Nossa abordagem combina conhecimento técnico, atendimento humanizado e tecnologia para oferecer o melhor serviço possível aos nossos clientes.
-            </p>
+            <p className="text-gray-600 mb-4">Fundada em 2022 pela advogada Keyse Diana, a Foco na Aposentadoria nasceu com o propósito de atender, de forma especializada, servidores públicos que buscam segurança e clareza no processo de aposentadoria. A partir de sua experiência na área, Keyse identificou a necessidade de um serviço focado nas particularidades do direito previdenciário do funcionalismo público.</p>
+            <p className="text-gray-600">Desde então, temos atuado com seriedade e compromisso, unindo conhecimento técnico, atendimento humanizado e tecnologia para garantir o melhor resultado aos nossos clientes. Já ajudamos centenas de servidores a planejarem e conquistarem seus direitos com tranquilidade, sempre com foco na qualidade, ética e no cuidado com cada caso.</p>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default AboutSection;
