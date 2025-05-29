@@ -27,7 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+            <Route path="/admin" element={<Navigate to="/admin/blog" replace />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/blog" element={<AdminLayout><AdminBlogPosts /></AdminLayout>} />
             <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
