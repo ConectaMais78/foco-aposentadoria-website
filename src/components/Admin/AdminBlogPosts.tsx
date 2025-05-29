@@ -1,12 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Book, Edit, Trash2, Plus, Save, ImagePlus } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Edit, Trash2, Plus, Save, Star, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
 interface BlogPost {
@@ -22,42 +21,10 @@ interface BlogPost {
   isFeatured?: boolean;
 }
 
-const categories = [
-  "Aposentadoria",
-  "INSS",
-  "Benefícios",
-  "Revisões",
-  "Direitos",
-  "Notícias",
-  "Dicas"
-];
-
 const AdminBlogPosts = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editing, setEditing] = useState<BlogPost | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string>("");
-  
-  const FormSchema = z.object({
-    title: z.string().min(1, "Título é obrigatório"),
-    excerpt: z.string().min(1, "Resumo é obrigatório"),
-    content: z.string().min(1, "Conteúdo é obrigatório"),
-    image: z.string().optional(),
-    author: z.string().min(1, "Autor é obrigatório"),
-    category: z.string().min(1, "Categoria é obrigatória"),
-  });
-  
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      title: "",
-      excerpt: "",
-      content: "",
-      image: "",
-      author: "",
-      category: "",
-    },
-  });
   
   useEffect(() => {
     loadPosts();
@@ -66,472 +33,301 @@ const AdminBlogPosts = () => {
   const loadPosts = () => {
     const storedPosts = localStorage.getItem('blogPosts');
     if (storedPosts) {
-      const parsedPosts = JSON.parse(storedPosts);
-      setPosts(parsedPosts);
+      setPosts(JSON.parse(storedPosts));
     } else {
-      // Sample initial posts
       const initialPosts = [
         {
           id: 1,
-          title: "Novidades na Aposentadoria em 2025",
-          excerpt: "Confira as principais mudanças nas regras de aposentadoria para 2025 e como isso pode afetar seus direitos.",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+          title: "Como requerer aposentadoria por idade no INSS",
+          excerpt: "Aprenda o passo a passo para solicitar sua aposentadoria por idade.",
+          content: "Conteúdo completo do artigo sobre aposentadoria por idade...",
+          image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=774&q=80",
           date: "10 Mai 2025",
           author: "Dr. Carlos Silva",
           category: "Aposentadoria",
-          readTime: "2 min",
+          readTime: "3 min",
           isFeatured: true
-        },
-        {
-          id: 2,
-          title: "Aposentadoria Especial: Quem tem direito?",
-          excerpt: "Entenda os critérios para concessão da aposentadoria especial e como comprovar o direito a este benefício.",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-          date: "02 Mai 2025",
-          author: "Dra. Mariana Costa",
-          category: "INSS",
-          readTime: "3 min"
-        },
-        {
-          id: 3,
-          title: "Revisão da Vida Toda: O que você precisa saber",
-          excerpt: "Descubra o que é a revisão da vida toda e como ela pode aumentar o valor da sua aposentadoria.",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-          date: "28 Abr 2025",
-          author: "Dr. Rafael Mendes",
-          category: "Revisões",
-          readTime: "4 min"
         }
       ];
-      
       setPosts(initialPosts);
       localStorage.setItem('blogPosts', JSON.stringify(initialPosts));
     }
   };
   
   const calculateReadTime = (content: string): string => {
-    const wordsPerMinute = 200;
     const words = content.trim().split(/\s+/).length;
-    const minutes = Math.ceil(words / wordsPerMinute);
+    const minutes = Math.ceil(words / 200);
     return `${minutes} min`;
   };
   
-  const processContent = (content: string): string => {
-    // Process content to replace image placeholders with actual HTML
-    // Format: [img:URL]
-    const processedContent = content.replace(/\[img:(.*?)\]/g, '<img src="$1" alt="Imagem do artigo" class="my-4 rounded-lg w-full" />');
-    return processedContent;
-  };
-  
-  const stripHtml = (html: string): string => {
-    // Remove HTML tags for word count calculation
-    return html.replace(/<[^>]*>?/gm, '');
-  };
-  
-  const handleSave = (data: z.infer<typeof FormSchema>) => {
-    console.log("Saving blog post data:", data);
-    console.log("Current editing state:", editing);
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editing) return;
     
-    // Process content to handle images
-    const processedContent = processContent(data.content);
-    
-    // Calculate reading time
-    const readTime = calculateReadTime(stripHtml(processedContent));
-    
+    const readTime = calculateReadTime(editing.content);
     const currentDate = new Date().toLocaleDateString('pt-BR', {
       day: '2-digit', 
       month: 'short', 
       year: 'numeric'
     }).replace('.', '');
     
-    let updatedPost: BlogPost;
     let updatedPosts: BlogPost[];
     
-    if (!editing || editing.id === 0 || editing.title === "") {
-      // Creating a new post
-      updatedPost = {
-        id: Date.now(),
-        title: data.title,
-        excerpt: data.excerpt,
-        content: processedContent,
-        image: data.image || "",
-        author: data.author,
-        date: currentDate,
-        category: data.category,
-        readTime,
-        isFeatured: false
-      };
-      
-      // Mark the newest post as featured and remove feature from others
-      updatedPosts = posts.map(post => ({
-        ...post,
-        isFeatured: false
-      }));
-      
-      updatedPost.isFeatured = true;
-      updatedPosts.push(updatedPost);
-    } else {
-      // Updating existing post
-      updatedPost = {
+    if (editing.id === 0) {
+      // Novo post
+      const newPost = {
         ...editing,
-        title: data.title,
-        excerpt: data.excerpt,
-        content: processedContent,
-        image: data.image || "",
-        author: data.author,
-        category: data.category,
+        id: Date.now(),
+        date: currentDate,
         readTime
       };
-      
+      updatedPosts = [newPost, ...posts];
+    } else {
+      // Editando post existente
       updatedPosts = posts.map(post => 
-        post.id === editing.id ? updatedPost : post
+        post.id === editing.id ? { ...editing, readTime } : post
       );
     }
     
-    console.log("Updated posts array:", updatedPosts);
-    
     setPosts(updatedPosts);
     localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
     
-    // Reset form and state
     setEditing(null);
     setShowForm(false);
-    form.reset();
-    
-    toast.success("Artigo salvo e publicado com sucesso!");
+    toast.success("Artigo salvo com sucesso!");
   };
   
   const handleDelete = (id: number) => {
-    const postToDelete = posts.find(post => post.id === id);
-    const isFeaturedPost = postToDelete?.isFeatured;
-    
-    const updatedPosts = posts.filter(post => post.id !== id);
-    
-    // If we're deleting the featured post, set the most recent post as featured
-    if (isFeaturedPost && updatedPosts.length > 0) {
-      // Sort by date and take the most recent
-      const sortedPosts = [...updatedPosts].sort((a, b) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      });
-      
-      if (sortedPosts.length > 0) {
-        updatedPosts.forEach(post => post.isFeatured = false);
-        const mostRecentPost = updatedPosts.find(post => post.id === sortedPosts[0].id);
-        if (mostRecentPost) {
-          mostRecentPost.isFeatured = true;
-        }
-      }
+    if (confirm('Tem certeza que deseja excluir este post?')) {
+      const updatedPosts = posts.filter(post => post.id !== id);
+      setPosts(updatedPosts);
+      localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
+      toast.success("Artigo excluído com sucesso!");
     }
-    
-    setPosts(updatedPosts);
-    localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
-    
-    if (editing && editing.id === id) {
-      setEditing(null);
-      setShowForm(false);
-      form.reset();
-    }
-    
-    toast.success("Artigo excluído com sucesso!");
   };
   
   const handleCreateNew = () => {
-    setEditing(null);
-    setShowForm(true);
-    
-    form.reset({
+    setEditing({
+      id: 0,
       title: "",
       excerpt: "",
       content: "",
       image: "",
-      author: "",
-      category: "",
+      author: "Dr. Carlos Silva",
+      category: "Aposentadoria",
+      date: "",
+      readTime: "",
+      isFeatured: false
     });
+    setShowForm(true);
   };
   
   const handleEdit = (post: BlogPost) => {
-    setEditing(post);
+    setEditing({ ...post });
     setShowForm(true);
-    
-    form.reset({
-      title: post.title,
-      excerpt: post.excerpt,
-      content: post.content,
-      image: post.image,
-      author: post.author,
-      category: post.category || "",
-    });
   };
   
-  const insertImage = () => {
-    if (!selectedImage) return;
-    
-    const imageTag = `[img:${selectedImage}]`;
-    const currentContent = form.getValues("content");
-    const newContent = currentContent + "\n\n" + imageTag;
-    
-    form.setValue("content", newContent);
-    setSelectedImage("");
+  const toggleFeatured = (id: number) => {
+    const updatedPosts = posts.map(post => 
+      post.id === id 
+        ? { ...post, isFeatured: !post.isFeatured }
+        : { ...post, isFeatured: false } // Remove destaque dos outros
+    );
+    setPosts(updatedPosts);
+    localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
+    toast.success("Artigo em destaque atualizado!");
   };
   
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-white flex items-center">
-          <Book className="mr-2 h-5 w-5 text-orange" />
-          Gerenciar Artigos do Blog
-        </h3>
-        
-        <Button 
-          onClick={handleCreateNew}
-          className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white"
-        >
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900">Gerenciar Blog</h1>
+        <Button onClick={handleCreateNew} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="mr-2 h-4 w-4" />
           Novo Artigo
         </Button>
       </div>
       
-      {showForm ? (
-        <div className="bg-navy/30 rounded-lg border border-white/10 p-6 mb-8">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSave)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-200">Título*</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="w-full bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="author"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-200">Autor*</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          className="w-full bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
+      {showForm && editing ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>{editing.id === 0 ? 'Criar Novo Artigo' : 'Editar Artigo'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSave} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Título</label>
+                <Input
+                  value={editing.title}
+                  onChange={(e) => setEditing({...editing, title: e.target.value})}
+                  required
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-200">Categoria*</FormLabel>
-                      <FormControl>
-                        <select
-                          {...field}
-                          className="w-full bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white"
-                        >
-                          <option value="">Selecione uma categoria</option>
-                          {categories.map((category) => (
-                            <option key={category} value={category}>{category}</option>
-                          ))}
-                        </select>
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="image"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-200">URL da Imagem de Capa</FormLabel>
-                      <FormControl>
-                        <input
-                          {...field}
-                          type="text"
-                          placeholder="https://exemplo.com/imagem.jpg"
-                          className="w-full bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              
-              {form.watch("image") && (
-                <div className="mt-2 h-40 w-full">
-                  <img 
-                    src={form.getValues("image")} 
-                    alt="Preview" 
-                    className="h-full w-64 object-cover rounded border border-gray-700"
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Autor</label>
+                  <Input
+                    value={editing.author}
+                    onChange={(e) => setEditing({...editing, author: e.target.value})}
+                    required
                   />
                 </div>
-              )}
-              
-              <FormField
-                control={form.control}
-                name="excerpt"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-200">Resumo*</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Um breve resumo do artigo (será exibido na listagem)"
-                        className="bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white h-20"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="space-y-2">
-                <FormLabel className="text-gray-200">Inserir Imagem no Conteúdo</FormLabel>
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    value={selectedImage}
-                    onChange={(e) => setSelectedImage(e.target.value)}
-                    placeholder="Cole a URL da imagem aqui"
-                    className="flex-1 bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white"
-                  />
-                  <Button 
-                    type="button"
-                    onClick={insertImage}
-                    className="bg-navy/80 border border-white/20 text-white hover:bg-navy"
+                <div>
+                  <label className="block text-sm font-medium mb-2">Categoria</label>
+                  <select
+                    value={editing.category}
+                    onChange={(e) => setEditing({...editing, category: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
                   >
-                    <ImagePlus className="mr-2 h-4 w-4" />
-                    Inserir
+                    <option value="Aposentadoria">Aposentadoria</option>
+                    <option value="INSS">INSS</option>
+                    <option value="Benefícios">Benefícios</option>
+                    <option value="Revisões">Revisões</option>
+                    <option value="Direitos">Direitos</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2">URL da Imagem</label>
+                <div className="flex gap-2">
+                  <Input
+                    value={editing.image}
+                    onChange={(e) => setEditing({...editing, image: e.target.value})}
+                    placeholder="https://exemplo.com/imagem.jpg"
+                  />
+                  <Button type="button" variant="outline">
+                    <ImageIcon className="h-4 w-4" />
                   </Button>
                 </div>
-                <p className="text-xs text-gray-400">
-                  Dica: Primeiro posicione o cursor no local onde deseja inserir a imagem, depois clique em "Inserir"
-                </p>
+                {editing.image && (
+                  <img 
+                    src={editing.image} 
+                    alt="Preview" 
+                    className="mt-2 h-32 w-48 object-cover rounded border"
+                  />
+                )}
               </div>
               
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-200">Conteúdo*</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder="Conteúdo completo do artigo. Para inserir imagens, posicione o cursor e use o botão 'Inserir' acima."
-                        className="bg-navy/50 border border-gray-700 rounded px-4 py-2 text-white h-60 font-mono"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
+              <div>
+                <label className="block text-sm font-medium mb-2">Resumo</label>
+                <Textarea
+                  value={editing.excerpt}
+                  onChange={(e) => setEditing({...editing, excerpt: e.target.value})}
+                  rows={2}
+                  required
+                />
+              </div>
               
-              <div className="flex justify-end gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Conteúdo</label>
+                <Textarea
+                  value={editing.content}
+                  onChange={(e) => setEditing({...editing, content: e.target.value})}
+                  rows={8}
+                  required
+                />
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={editing.isFeatured}
+                  onChange={(e) => setEditing({...editing, isFeatured: e.target.checked})}
+                  className="rounded"
+                />
+                <label htmlFor="featured" className="text-sm font-medium">Artigo em destaque</label>
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button type="submit" className="bg-green-600 hover:bg-green-700">
+                  <Save className="mr-2 h-4 w-4" />
+                  Salvar
+                </Button>
                 <Button 
-                  type="button"
+                  type="button" 
                   variant="outline" 
-                  className="border-white/30 text-white hover:bg-white/10"
                   onClick={() => {
                     setEditing(null);
                     setShowForm(false);
-                    form.reset();
                   }}
                 >
                   Cancelar
                 </Button>
-                <Button 
-                  type="submit"
-                  className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white"
-                >
-                  <Save className="mr-2 h-4 w-4" />
-                  Salvar e Publicar
-                </Button>
               </div>
             </form>
-          </Form>
-        </div>
+          </CardContent>
+        </Card>
       ) : (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid gap-4">
           {posts.map((post) => (
-            <div 
-              key={post.id} 
-              className={`bg-navy/30 rounded-lg border ${post.isFeatured ? 'border-orange' : 'border-white/10'} p-4 flex justify-between items-center`}
-            >
-              <div className="flex items-center">
-                <div 
-                  className="w-16 h-16 rounded overflow-hidden flex-shrink-0 mr-4 border border-white/10"
-                >
-                  <img 
-                    src={post.image || '/placeholder.svg'} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <div className="flex items-center">
-                    <h4 className="font-medium text-white">{post.title}</h4>
-                    {post.isFeatured && (
-                      <span className="ml-2 text-xs font-semibold bg-orange text-white px-1.5 py-0.5 rounded">
-                        Destaque
-                      </span>
-                    )}
+            <Card key={post.id}>
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex space-x-4 flex-1">
+                    <img 
+                      src={post.image || '/placeholder.svg'} 
+                      alt={post.title} 
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2">
+                        <h3 className="font-semibold text-lg">{post.title}</h3>
+                        {post.isFeatured && (
+                          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+                            <Star className="w-3 h-3 mr-1" />
+                            Destaque
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-gray-600 text-sm mt-1">{post.excerpt}</p>
+                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                        <span>{post.author}</span>
+                        <span>{post.date}</span>
+                        <span>{post.category}</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex text-sm text-gray-400 gap-3">
-                    <span>{post.date}</span>
-                    <span className="text-orange">{post.author}</span>
-                    {post.category && (
-                      <span className="text-gray-300">{post.category}</span>
-                    )}
-                    <span className="text-gray-400">{post.readTime}</span>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleFeatured(post.id)}
+                      className={post.isFeatured ? "bg-yellow-50" : ""}
+                    >
+                      <Star className={`h-4 w-4 ${post.isFeatured ? 'text-yellow-600' : ''}`} />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(post)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(post.id)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
-              </div>
-              <div className="flex space-x-2">
-                <Button
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-400 hover:text-orange"
-                  onClick={() => handleEdit(post)}
-                >
-                  <Edit className="h-5 w-5" />
-                </Button>
-                <Button
-                  variant="ghost" 
-                  size="sm"
-                  className="h-9 w-9 p-0 text-gray-400 hover:text-red-500"
-                  onClick={() => handleDelete(post.id)}
-                >
-                  <Trash2 className="h-5 w-5" />
-                </Button>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
           
           {posts.length === 0 && (
-            <div className="text-center py-10 text-gray-400 bg-navy/30 rounded-lg border border-white/10">
-              Nenhum artigo publicado
-            </div>
+            <Card>
+              <CardContent className="text-center py-10">
+                <p className="text-gray-500">Nenhum artigo encontrado</p>
+              </CardContent>
+            </Card>
           )}
         </div>
       )}

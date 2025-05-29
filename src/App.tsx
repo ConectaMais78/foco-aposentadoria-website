@@ -11,9 +11,8 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminLogin from "./components/Admin/AdminLogin";
-import Dashboard from "./components/Admin/Dashboard";
-import AdminPages from "./components/Admin/AdminPages";
-import AdminBlog from "./components/Admin/AdminBlog";
+import AdminBlogPosts from "./components/Admin/AdminBlogPosts";
+import AdminMessages from "./components/Admin/AdminMessages";
 
 const queryClient = new QueryClient();
 
@@ -30,9 +29,8 @@ const App = () => (
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
-            <Route path="/admin/pages" element={<AdminLayout><AdminPages /></AdminLayout>} />
-            <Route path="/admin/blog" element={<AdminLayout><AdminBlog /></AdminLayout>} />
+            <Route path="/admin/blog" element={<AdminLayout><AdminBlogPosts /></AdminLayout>} />
+            <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
