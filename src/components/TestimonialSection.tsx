@@ -35,7 +35,7 @@ const TestimonialSection = () => {
       title="O Que Nossos Clientes Dizem"
       description="A satisfação dos nossos clientes é o nosso maior orgulho. Confira alguns depoimentos de quem já conquistou seus direitos conosco."
       testimonials={testimonials}
-      className="bg-deepNavy"
+      className="bg-white text-gray-900"
     />
   );
 };
