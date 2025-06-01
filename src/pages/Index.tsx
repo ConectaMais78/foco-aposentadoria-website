@@ -1,7 +1,7 @@
 
 import React from "react";
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
+import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 import AboutSection from "@/components/AboutSection";
 import ServiceSection from "@/components/ServiceSection";
 import TestimonialSection from "@/components/TestimonialSection";
@@ -15,7 +15,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-deepNavy">
       <Header />
-      <Hero />
+      <HeroGeometric 
+        badge="Foco na Aposentadoria"
+        title1="Seu direito à aposentadoria"
+        title2="é nossa prioridade" 
+      />
       <div className="section-gradient">
         <AboutSection />
       </div>
