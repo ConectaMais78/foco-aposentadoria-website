@@ -77,13 +77,14 @@ const BlogSection = () => {
           {blogPosts.map((post) => (
             <div 
               key={post.id}
-              className="card-gradient rounded-lg overflow-hidden shadow-lg border border-white/10 hover:border-orange/30 transition-all duration-300"
+              className="card-gradient rounded-lg overflow-hidden shadow-lg border border-white/10 hover:border-orange/30 transition-all duration-300 cursor-pointer group"
+              onClick={() => navigate(`/blog/${post.id}`)}
             >
               <div className="relative h-48">
                 <img
                   src={post.image || '/placeholder.svg'}
                   alt={post.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-deepNavy to-transparent"></div>
                 {post.category && (
@@ -100,18 +101,15 @@ const BlogSection = () => {
                   </div>
                   <span className="text-orange">{post.date}</span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{post.title}</h3>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange transition-colors duration-300">{post.title}</h3>
                 <p className="text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
-                <Button 
-                  variant="ghost" 
-                  className="text-orange hover:text-orange hover:bg-white/10 p-0 h-auto"
-                  onClick={() => navigate(`/blog/${post.id}`)}
-                >
-                  <span className="flex items-center">
-                    Leia mais 
-                    <Book className="ml-2 h-4 w-4" />
-                  </span>
-                </Button>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">{post.author}</span>
+                  <div className="flex items-center text-orange group-hover:translate-x-1 transition-transform duration-300">
+                    <span className="text-sm mr-2">Leia mais</span>
+                    <Book className="h-4 w-4" />
+                  </div>
+                </div>
               </div>
             </div>
           ))}

@@ -101,41 +101,41 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+          {/* Desktop Navigation - Melhor alinhamento */}
+          <nav className="hidden lg:flex items-center justify-center gap-8 xl:gap-10">
             <button
               onClick={() => scrollToSection('sobre')}
-              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base"
+              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Sobre
             </button>
             <Link
               to="/blog"
-              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base"
+              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Blog
             </Link>
             <button
               onClick={() => scrollToSection('servicos')}
-              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base"
+              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Serviços
             </button>
             <button
               onClick={() => scrollToSection('depoimentos')}
-              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base"
+              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Depoimentos
             </button>
             <button
               onClick={() => scrollToSection('faq')}
-              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base"
+              className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               FAQ
             </button>
             <Button
               onClick={() => scrollToSection('contato')}
-              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 text-sm xl:text-base px-4 xl:px-6"
+              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 text-sm xl:text-base px-4 xl:px-6 whitespace-nowrap"
             >
               Contato
             </Button>

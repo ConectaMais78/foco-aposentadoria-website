@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Eye, Trash2, Mail, Phone, Clock, User, Send } from "lucide-react";
+import { Eye, Trash2, Mail, Phone, Clock, User, Send, Reply } from "lucide-react";
 import { toast } from "sonner";
 
 interface ContactMessage {
@@ -22,7 +22,8 @@ const AdminMessages = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
   const [replyText, setReplyText] = useState('');
-  const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all');
+  const [filter, setFilter] = useState<'all' | 'unread' | 'read' | 'replied'>('all');
+  const [isReplying, setIsReplying] = useState(false);
   
   useEffect(() => {
     loadMessages();
@@ -66,7 +67,17 @@ const AdminMessages = () => {
     // Simula envio de resposta
     handleStatusChange(selectedMessage.id, 'replied');
     setReplyText('');
+    setIsReplying(false);
     toast.success("Resposta enviada com sucesso!");
+  };
+
+  const handleViewMessage = (message: ContactMessage) => {
+    setSelectedMessage(message);
+    if (message.status === 'unread') {
+      handleStatusChange(message.id, 'read');
+    }
+    setIsReplying(false);
+    setReplyText('');
   };
 
   const filteredMessages = messages.filter(message => {
@@ -75,6 +86,8 @@ const AdminMessages = () => {
   });
 
   const unreadCount = messages.filter(m => m.status === 'unread').length;
+  const readCount = messages.filter(m => m.status === 'read').length;
+  const repliedCount = messages.filter(m => m.status === 'replied').length;
   
   return (
     <div className="space-y-6">
@@ -82,12 +95,12 @@ const AdminMessages = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Mensagens</h1>
           <p className="text-gray-600">
-            {messages.length} total • {unreadCount} não lidas
+            {messages.length} total • {unreadCount} não lidas • {readCount} lidas • {repliedCount} respondidas
           </p>
         </div>
         
         <div className="flex space-x-2">
-          {(['all', 'unread', 'read'] as const).map((filterType) => (
+          {(['all', 'unread', 'read', 'replied'] as const).map((filterType) => (
             <Button
               key={filterType}
               variant={filter === filterType ? "default" : "outline"}
@@ -95,7 +108,8 @@ const AdminMessages = () => {
               onClick={() => setFilter(filterType)}
             >
               {filterType === 'all' ? 'Todas' : 
-               filterType === 'unread' ? 'Não lidas' : 'Lidas'}
+               filterType === 'unread' ? 'Não lidas' : 
+               filterType === 'read' ? 'Lidas' : 'Respondidas'}
             </Button>
           ))}
         </div>
@@ -118,15 +132,10 @@ const AdminMessages = () => {
                   {filteredMessages.map((message) => (
                     <div 
                       key={message.id} 
-                      className={`p-4 cursor-pointer hover:bg-gray-50 ${
-                        selectedMessage?.id === message.id ? 'bg-blue-50' : ''
+                      className={`p-4 cursor-pointer hover:bg-gray-50 transition-colors ${
+                        selectedMessage?.id === message.id ? 'bg-blue-50 border-l-4 border-blue-500' : ''
                       }`}
-                      onClick={() => {
-                        setSelectedMessage(message);
-                        if (message.status === 'unread') {
-                          handleStatusChange(message.id, 'read');
-                        }
-                      }}
+                      onClick={() => handleViewMessage(message)}
                     >
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-medium text-sm">{message.name}</h4>
@@ -145,8 +154,9 @@ const AdminMessages = () => {
                           </Badge>
                         </div>
                       </div>
-                      <p className="text-sm font-medium mb-1">{message.subject}</p>
+                      <p className="text-sm font-medium mb-1 truncate">{message.subject}</p>
                       <p className="text-xs text-gray-500 mb-2">{message.email}</p>
+                      <p className="text-xs text-gray-600 mb-2 line-clamp-2">{message.message}</p>
                       <div className="flex items-center text-xs text-gray-400">
                         <Clock className="h-3 w-3 mr-1" />
                         {new Date(message.date).toLocaleDateString('pt-BR')}
@@ -162,8 +172,21 @@ const AdminMessages = () => {
         {/* Detalhes da mensagem */}
         <Card>
           <CardHeader>
-            <CardTitle>
+            <CardTitle className="flex items-center justify-between">
               {selectedMessage ? 'Detalhes da Mensagem' : 'Selecione uma Mensagem'}
+              {selectedMessage && (
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsReplying(!isReplying)}
+                    className="text-blue-600 hover:text-blue-700"
+                  >
+                    <Reply className="h-4 w-4 mr-1" />
+                    Responder
+                  </Button>
+                </div>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -171,7 +194,18 @@ const AdminMessages = () => {
               <div className="space-y-4">
                 {/* Cabeçalho */}
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="text-lg font-semibold mb-2">{selectedMessage.subject}</h3>
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-lg font-semibold">{selectedMessage.subject}</h3>
+                    <Badge 
+                      variant={
+                        selectedMessage.status === 'unread' ? 'destructive' : 
+                        selectedMessage.status === 'replied' ? 'default' : 'secondary'
+                      }
+                    >
+                      {selectedMessage.status === 'unread' ? 'Nova' : 
+                       selectedMessage.status === 'replied' ? 'Respondida' : 'Lida'}
+                    </Badge>
+                  </div>
                   <div className="grid grid-cols-1 gap-2 text-sm">
                     <div className="flex items-center">
                       <User className="h-4 w-4 mr-2 text-gray-500" />
@@ -188,26 +222,34 @@ const AdminMessages = () => {
                       <span className="font-medium">Telefone:</span>
                       <span className="ml-1">{selectedMessage.phone}</span>
                     </div>
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                      <span className="font-medium">Data:</span>
+                      <span className="ml-1">{new Date(selectedMessage.date).toLocaleString('pt-BR')}</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Conteúdo */}
                 <div className="border rounded-lg p-4">
                   <h4 className="font-medium mb-2">Mensagem:</h4>
-                  <p className="text-gray-700 whitespace-pre-line">
-                    {selectedMessage.message}
-                  </p>
+                  <div className="bg-white border-l-4 border-blue-200 pl-4 py-2">
+                    <p className="text-gray-700 whitespace-pre-line">
+                      {selectedMessage.message}
+                    </p>
+                  </div>
                 </div>
                 
-                {/* Resposta */}
-                {selectedMessage.status !== 'replied' && (
-                  <div className="space-y-3">
-                    <h4 className="font-medium">Responder:</h4>
+                {/* Área de resposta */}
+                {isReplying && (
+                  <div className="space-y-3 border-t pt-4">
+                    <h4 className="font-medium text-blue-600">Responder Mensagem:</h4>
                     <Textarea
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       placeholder="Digite sua resposta..."
                       rows={4}
+                      className="resize-none"
                     />
                     <div className="flex space-x-2">
                       <Button 
@@ -220,32 +262,43 @@ const AdminMessages = () => {
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => window.location.href = `mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
+                        onClick={() => window.open(`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}&body=${encodeURIComponent(replyText)}`)}
                       >
                         <Mail className="h-4 w-4 mr-2" />
-                        Abrir Email
+                        Abrir no Email
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setIsReplying(false);
+                          setReplyText('');
+                        }}
+                      >
+                        Cancelar
                       </Button>
                     </div>
                   </div>
                 )}
                 
                 {/* Ações */}
-                <div className="flex justify-end space-x-2 pt-4 border-t">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleStatusChange(selectedMessage.id, 
-                      selectedMessage.status === 'read' ? 'unread' : 'read'
-                    )}
-                  >
-                    <Eye className="h-4 w-4 mr-1" />
-                    {selectedMessage.status === 'read' ? 'Marcar não lida' : 'Marcar lida'}
-                  </Button>
+                <div className="flex justify-between items-center pt-4 border-t">
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleStatusChange(selectedMessage.id, 
+                        selectedMessage.status === 'read' ? 'unread' : 'read'
+                      )}
+                    >
+                      <Eye className="h-4 w-4 mr-1" />
+                      {selectedMessage.status === 'read' ? 'Marcar não lida' : 'Marcar lida'}
+                    </Button>
+                  </div>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleDelete(selectedMessage.id)}
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
                   >
                     <Trash2 className="h-4 w-4 mr-1" />
                     Excluir
@@ -259,7 +312,7 @@ const AdminMessages = () => {
                   Nenhuma mensagem selecionada
                 </h3>
                 <p className="text-gray-500">
-                  Selecione uma mensagem da lista para visualizar os detalhes.
+                  Clique em uma mensagem da lista para visualizar os detalhes e responder.
                 </p>
               </div>
             )}

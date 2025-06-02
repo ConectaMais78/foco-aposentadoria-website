@@ -1,9 +1,29 @@
 
 import React from "react";
 import { Instagram } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const scrollToSection = (sectionId: string) => {
+    // If we're not on the home page, navigate there first
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
+    // If we're on the home page, scroll to the section
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
 
   return (
     <footer className="bg-deepNavy text-white border-t border-white/10">
@@ -38,19 +58,44 @@ const Footer = () => {
             <div className="h-1 w-16 bg-gradient-to-r from-orange/50 to-orange mb-4"></div>
             <ul className="space-y-2 text-white/80">
               <li>
-                <a href="#sobre" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Sobre</a>
+                <button
+                  onClick={() => scrollToSection('sobre')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Sobre
+                </button>
               </li>
               <li>
-                <a href="/blog" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Blog</a>
+                <button
+                  onClick={() => navigate('/blog')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Blog
+                </button>
               </li>
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Serviços</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Serviços
+                </button>
               </li>
               <li>
-                <a href="#depoimentos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Depoimentos</a>
+                <button
+                  onClick={() => scrollToSection('depoimentos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Depoimentos
+                </button>
               </li>
               <li>
-                <a href="#faq" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">FAQ</a>
+                <button
+                  onClick={() => scrollToSection('faq')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  FAQ
+                </button>
               </li>
             </ul>
           </div>
@@ -60,19 +105,44 @@ const Footer = () => {
             <div className="h-1 w-16 bg-gradient-to-r from-orange/50 to-orange mb-4"></div>
             <ul className="space-y-2 text-white/80">
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Aposentadoria por Tempo</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Aposentadoria por Tempo
+                </button>
               </li>
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Aposentadoria por Idade</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Aposentadoria por Idade
+                </button>
               </li>
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Aposentadoria Especial</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Aposentadoria Especial
+                </button>
               </li>
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Pensão por Morte</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Pensão por Morte
+                </button>
               </li>
               <li>
-                <a href="#servicos" className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block">Revisão de Benefícios</a>
+                <button
+                  onClick={() => scrollToSection('servicos')}
+                  className="hover:text-orange transition-all duration-300 hover:translate-x-1 inline-block text-left"
+                >
+                  Revisão de Benefícios
+                </button>
               </li>
             </ul>
           </div>
