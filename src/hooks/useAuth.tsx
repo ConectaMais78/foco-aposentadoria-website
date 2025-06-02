@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name: 'Administrador',
         role: 'admin',
         createdAt: new Date().toISOString(),
+        status: 'active'
       },
       {
         id: '2',
@@ -41,6 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         name: 'Editor',
         role: 'editor',
         createdAt: new Date().toISOString(),
+        status: 'active'
       }
     ];
 
