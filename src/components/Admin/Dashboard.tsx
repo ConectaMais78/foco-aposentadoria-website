@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
+import { useAdmin } from '@/contexts/AdminContext';
 import { 
   Users, 
   FileText, 
@@ -15,33 +16,34 @@ import {
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const { blogPosts, messages, teamMembers, analyticsData } = useAdmin();
 
   const stats = [
     {
       title: 'Visitantes do Mês',
-      value: '2,847',
-      change: '+12.5%',
+      value: analyticsData.pageViews?.thisMonth?.toLocaleString() || '2,847',
+      change: `+${analyticsData.pageViews?.growth || 12.5}%`,
       icon: Eye,
       color: 'from-blue-500 to-blue-600'
     },
     {
       title: 'Posts do Blog',
-      value: '24',
+      value: blogPosts.length.toString(),
       change: '+3',
       icon: FileText,
       color: 'from-green-500 to-green-600'
     },
     {
       title: 'Mensagens',
-      value: '18',
-      change: '+6',
+      value: messages.length.toString(),
+      change: `+${messages.filter(m => m.status === 'unread').length}`,
       icon: MessageSquare,
       color: 'from-orange to-orangeLight'
     },
     {
-      title: 'Usuários Ativos',
-      value: '156',
-      change: '+8.2%',
+      title: 'Membros da Equipe',
+      value: teamMembers.length.toString(),
+      change: '+1',
       icon: Users,
       color: 'from-purple-500 to-purple-600'
     }
@@ -64,7 +66,7 @@ const Dashboard = () => {
       type: 'page'
     },
     {
-      title: 'Novo usuário cadastrado',
+      title: 'Novo membro da equipe adicionado',
       time: '5 horas atrás',
       type: 'user'
     }
@@ -176,8 +178,8 @@ const Dashboard = () => {
             <button className="w-full text-left p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 hover-lift">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-white font-medium">Gerenciar Páginas</p>
-                  <p className="text-gray-400 text-sm">Editar conteúdo do site</p>
+                  <p className="text-white font-medium">Gerenciar Equipe</p>
+                  <p className="text-gray-400 text-sm">Editar membros da equipe</p>
                 </div>
                 <Users className="h-5 w-5 text-gray-400" />
               </div>

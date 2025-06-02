@@ -35,7 +35,42 @@ class DataService {
 
   // Blog Posts Management
   getBlogPosts(): BlogPost[] {
-    return this.getFromStorage('blogPosts', []);
+    const defaultPosts: BlogPost[] = [
+      {
+        id: '1',
+        title: 'Novidades na Aposentadoria em 2025',
+        slug: 'novidades-aposentadoria-2025',
+        content: 'As mudanças nas regras de aposentadoria continuam em 2025...',
+        excerpt: 'Conheça as principais mudanças nas regras de aposentadoria para 2025.',
+        author: 'Dr. João Silva',
+        publishDate: new Date().toISOString(),
+        status: 'published',
+        category: 'Aposentadoria',
+        tags: ['aposentadoria', 'INSS', '2025'],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        viewCount: 1234,
+        readTime: '5 min'
+      },
+      {
+        id: '2',
+        title: 'Aposentadoria Especial: Quem tem direito?',
+        slug: 'aposentadoria-especial-direito',
+        content: 'A aposentadoria especial é um benefício destinado aos trabalhadores...',
+        excerpt: 'Entenda quem tem direito à aposentadoria especial e como solicitar.',
+        author: 'Dra. Maria Santos',
+        publishDate: new Date().toISOString(),
+        status: 'published',
+        category: 'Aposentadoria',
+        tags: ['aposentadoria especial', 'direitos'],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        viewCount: 987,
+        readTime: '7 min'
+      }
+    ];
+    
+    return this.getFromStorage('blogPosts', defaultPosts);
   }
 
   saveBlogPosts(posts: BlogPost[]): void {
@@ -97,10 +132,10 @@ class DataService {
   // Blog Categories Management
   getBlogCategories(): BlogCategory[] {
     return this.getFromStorage('blogCategories', [
-      { id: '1', name: 'Aposentadoria', slug: 'aposentadoria', description: 'Artigos sobre aposentadoria', color: '#f97316', postCount: 0 },
-      { id: '2', name: 'INSS', slug: 'inss', description: 'Informações sobre INSS', color: '#3b82f6', postCount: 0 },
-      { id: '3', name: 'Revisões', slug: 'revisoes', description: 'Revisões de benefícios', color: '#10b981', postCount: 0 },
-      { id: '4', name: 'Dicas', slug: 'dicas', description: 'Dicas e orientações', color: '#8b5cf6', postCount: 0 }
+      { id: '1', name: 'Aposentadoria', slug: 'aposentadoria', description: 'Artigos sobre aposentadoria', color: '#f97316', postCount: 15 },
+      { id: '2', name: 'INSS', slug: 'inss', description: 'Informações sobre INSS', color: '#3b82f6', postCount: 8 },
+      { id: '3', name: 'Revisões', slug: 'revisoes', description: 'Revisões de benefícios', color: '#10b981', postCount: 5 },
+      { id: '4', name: 'Dicas', slug: 'dicas', description: 'Dicas e orientações', color: '#8b5cf6', postCount: 12 }
     ]);
   }
 
@@ -110,7 +145,55 @@ class DataService {
 
   // Messages Management
   getMessages(): ContactMessage[] {
-    return this.getFromStorage('messages', []);
+    const defaultMessages: ContactMessage[] = [
+      {
+        id: '1',
+        name: 'Maria Silva',
+        email: 'maria.silva@email.com',
+        phone: '(11) 99999-0001',
+        subject: 'Dúvida sobre aposentadoria',
+        message: 'Olá, gostaria de saber mais sobre as novas regras de aposentadoria. Trabalho há 25 anos e tenho 52 anos. Quando posso me aposentar?',
+        date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 horas atrás
+        status: 'unread',
+        priority: 'medium',
+        category: 'aposentadoria',
+        tags: ['aposentadoria', 'consulta'],
+        source: 'website'
+      },
+      {
+        id: '2',
+        name: 'João Santos',
+        email: 'joao.santos@email.com',
+        phone: '(11) 99999-0002',
+        subject: 'Revisão de benefício',
+        message: 'Preciso fazer uma revisão do meu benefício. Acredito que há erro no cálculo. Podem me ajudar?',
+        date: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // 5 horas atrás
+        status: 'read',
+        priority: 'high',
+        category: 'revisao',
+        tags: ['revisão', 'benefício'],
+        source: 'website'
+      },
+      {
+        id: '3',
+        name: 'Ana Costa',
+        email: 'ana.costa@email.com',
+        phone: '(11) 99999-0003',
+        subject: 'Agendamento de consulta',
+        message: 'Gostaria de agendar uma consulta para avaliar meu caso. Estou com dúvidas sobre aposentadoria por invalidez.',
+        date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 dia atrás
+        status: 'replied',
+        priority: 'medium',
+        category: 'consulta',
+        reply: 'Olá Ana, obrigado pelo contato. Entraremos em contato para agendar sua consulta.',
+        repliedAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+        repliedBy: 'admin',
+        tags: ['consulta', 'agendamento'],
+        source: 'website'
+      }
+    ];
+    
+    return this.getFromStorage('messages', defaultMessages);
   }
 
   saveMessages(messages: ContactMessage[]): void {
@@ -150,7 +233,42 @@ class DataService {
 
   // Team Members Management
   getTeamMembers(): TeamMember[] {
-    return this.getFromStorage('teamMembers', []);
+    const defaultTeam: TeamMember[] = [
+      {
+        id: '1',
+        name: 'Dr. João Silva',
+        position: 'Advogado Sênior - Direito Previdenciário',
+        bio: 'Especialista em direito previdenciário com mais de 15 anos de experiência.',
+        email: 'joao.silva@foconaaposentadoria.com',
+        phone: '(11) 99999-1001',
+        specializations: ['Aposentadoria', 'Revisão de Benefícios', 'INSS'],
+        socialLinks: {
+          linkedin: 'https://linkedin.com/in/joaosilva',
+          whatsapp: '5511999991001'
+        },
+        order: 1,
+        status: 'active',
+        joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: '2',
+        name: 'Dra. Maria Santos',
+        position: 'Advogada - Direito Previdenciário',
+        bio: 'Especializada em aposentadoria especial e benefícios por incapacidade.',
+        email: 'maria.santos@foconaaposentadoria.com',
+        phone: '(11) 99999-1002',
+        specializations: ['Aposentadoria Especial', 'Auxílio-Doença', 'Perícia Médica'],
+        socialLinks: {
+          linkedin: 'https://linkedin.com/in/mariasantos',
+          whatsapp: '5511999991002'
+        },
+        order: 2,
+        status: 'active',
+        joinDate: new Date(Date.now() - 200 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ];
+    
+    return this.getFromStorage('teamMembers', defaultTeam);
   }
 
   saveTeamMembers(members: TeamMember[]): void {
