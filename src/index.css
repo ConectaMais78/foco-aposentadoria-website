@@ -178,6 +178,11 @@
   .text-mobile-base {
     @apply text-sm sm:text-base md:text-lg;
   }
+
+  /* Spotlight effect - custom gradient radial */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
 }
 
 .gradient-bg {
