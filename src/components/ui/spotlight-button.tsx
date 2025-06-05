@@ -21,19 +21,19 @@ const NavItem: React.FC<NavItemProps> = ({
 
   return (
     <button
-      className="relative flex items-center justify-center px-4 h-12 mx-2 transition-all duration-400"
+      className="relative flex items-center justify-center w-20 h-12 mx-2 transition-all duration-400"
       onClick={onClick}
     >
       <div 
-        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-b from-orange/40 to-transparent blur-lg rounded-full transition-opacity duration-400"
+        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-24 bg-gradient-to-b from-white/40 to-transparent blur-lg rounded-full transition-opacity duration-400"
         style={{
           opacity: spotlightOpacity,
           transitionDelay: isActive ? '0.1s' : '0s',
         }}
       />
       <span
-        className={`font-medium transition-colors duration-200 ${
-          isActive ? 'text-orange' : 'text-gray-400 hover:text-gray-300'
+        className={`text-sm font-medium transition-colors duration-200 ${
+          isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'
         }`}
       >
         {label}
@@ -60,12 +60,12 @@ export const AdminSpotlightNav: React.FC<AdminSpotlightNavProps> = ({
   ];
 
   return (
-    <nav className="relative flex items-center px-2 py-3 bg-black/90 backdrop-blur-sm rounded-lg shadow-lg border border-white/10">
+    <nav className="relative flex items-center px-2 py-3 bg-black/90 backdrop-blur-sm rounded-md shadow-lg border border-white/10">
       <div 
-        className="absolute top-0 h-[2px] bg-orange transition-all duration-400 ease-in-out"
+        className="absolute top-0 h-[2px] bg-white transition-all duration-400 ease-in-out"
         style={{
-          left: `${activeIndex * 100 + 16}px`,
-          width: '70px',
+          left: `${activeIndex * 96 + 16}px`,
+          width: '80px',
           transform: 'translateY(-1px)',
         }}
       />
