@@ -12,7 +12,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -20,11 +19,7 @@ import {
   LayoutDashboard,
   PenTool,
   MessageSquare,
-  Users,
-  FileImage,
   Settings,
-  BarChart3,
-  Globe,
   Shield,
   LogOut,
   UserCog
@@ -48,30 +43,6 @@ const menuItems = [
     url: '/admin/messages',
     icon: MessageSquare,
     description: 'Contatos e suporte'
-  },
-  {
-    title: 'Equipe',
-    url: '/admin/team',
-    icon: Users,
-    description: 'Gerenciar membros'
-  },
-  {
-    title: 'Mídia',
-    url: '/admin/media',
-    icon: FileImage,
-    description: 'Arquivos e imagens'
-  },
-  {
-    title: 'Analytics',
-    url: '/admin/analytics',
-    icon: BarChart3,
-    description: 'Relatórios e métricas'
-  },
-  {
-    title: 'Site',
-    url: '/admin/site-settings',
-    icon: Globe,
-    description: 'Configurações gerais'
   }
 ];
 
@@ -103,8 +74,8 @@ export function AdminSidebar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Sidebar className="border-r border-white/10">
-      <SidebarHeader className="border-b border-white/10 p-4">
+    <Sidebar className="border-r border-gray-800 bg-gray-900">
+      <SidebarHeader className="border-b border-gray-800 p-4 bg-gray-900">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-r from-orange to-orangeLight rounded-lg flex items-center justify-center">
             <Shield className="h-6 w-6 text-white" />
@@ -118,7 +89,7 @@ export function AdminSidebar() {
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="p-2">
+      <SidebarContent className="p-2 bg-gray-900">
         <SidebarGroup>
           <SidebarGroupLabel className="text-gray-400 font-medium px-2 py-1">
             Gestão de Conteúdo
@@ -134,7 +105,7 @@ export function AdminSidebar() {
                       group w-full justify-start px-3 py-2.5 text-sm transition-all duration-200
                       ${isActive(item.url) 
                         ? 'bg-gradient-to-r from-orange/20 to-orangeLight/20 text-white border-l-2 border-orange' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
                       }
                     `}
                   >
@@ -170,7 +141,7 @@ export function AdminSidebar() {
                         group w-full justify-start px-3 py-2.5 text-sm transition-all duration-200
                         ${isActive(item.url) 
                           ? 'bg-gradient-to-r from-orange/20 to-orangeLight/20 text-white border-l-2 border-orange' 
-                          : 'text-gray-300 hover:text-white hover:bg-white/5'
+                          : 'text-gray-300 hover:text-white hover:bg-gray-800'
                         }
                       `}
                     >
@@ -192,7 +163,7 @@ export function AdminSidebar() {
         )}
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-white/10 p-4">
+      <SidebarFooter className="border-t border-gray-800 p-4 bg-gray-900">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-r from-orange to-orangeLight rounded-full flex items-center justify-center">
@@ -209,7 +180,7 @@ export function AdminSidebar() {
             variant="ghost"
             size="sm"
             onClick={logout}
-            className="text-gray-400 hover:text-white hover:bg-white/10 p-2"
+            className="text-gray-400 hover:text-white hover:bg-gray-800 p-2"
           >
             <LogOut className="h-4 w-4" />
           </Button>
