@@ -24,13 +24,13 @@ const Index = () => {
         <AboutSection />
       </div>
       <div className="section-gradient">
-        <BlogSection />
-      </div>
-      <div className="section-gradient">
         <ServiceSection />
       </div>
       <div className="bg-deepNavy">
         <TestimonialSection />
+      </div>
+      <div className="section-gradient">
+        <BlogSection />
       </div>
       <div className="section-gradient">
         <FaqSection />
