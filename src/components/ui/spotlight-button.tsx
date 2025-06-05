@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
-import { LayoutDashboard, PenTool, MessageSquare, LogOut, Shield } from 'lucide-react';
 
 interface NavItemProps {
-  icon: React.ElementType;
+  label: string;
   isActive?: boolean;
   onClick?: () => void;
   indicatorPosition: number;
@@ -11,7 +10,7 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ 
-  icon: Icon, 
+  label, 
   isActive = false, 
   onClick,
   indicatorPosition,
@@ -22,22 +21,23 @@ const NavItem: React.FC<NavItemProps> = ({
 
   return (
     <button
-      className="relative flex items-center justify-center w-12 h-12 mx-2 transition-all duration-400"
+      className="relative flex items-center justify-center px-4 h-12 mx-2 transition-all duration-400"
       onClick={onClick}
     >
       <div 
-        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-24 bg-gradient-to-b from-orange/40 to-transparent blur-lg rounded-full transition-opacity duration-400"
+        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-b from-orange/40 to-transparent blur-lg rounded-full transition-opacity duration-400"
         style={{
           opacity: spotlightOpacity,
           transitionDelay: isActive ? '0.1s' : '0s',
         }}
       />
-      <Icon
-        className={`w-6 h-6 transition-colors duration-200 ${
+      <span
+        className={`font-medium transition-colors duration-200 ${
           isActive ? 'text-orange' : 'text-gray-400 hover:text-gray-300'
         }`}
-        strokeWidth={isActive ? 2.5 : 2}
-      />
+      >
+        {label}
+      </span>
     </button>
   );
 };
@@ -52,11 +52,11 @@ export const AdminSpotlightNav: React.FC<AdminSpotlightNavProps> = ({
   onNavigate 
 }) => {
   const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard' },
-    { icon: PenTool, label: 'Blog' },
-    { icon: MessageSquare, label: 'Mensagens' },
-    { icon: Shield, label: 'Admin' },
-    { icon: LogOut, label: 'Sair' },
+    { label: 'Dashboard' },
+    { label: 'Blog' },
+    { label: 'Mensagens' },
+    { label: 'Admin' },
+    { label: 'Sair' },
   ];
 
   return (
@@ -64,15 +64,15 @@ export const AdminSpotlightNav: React.FC<AdminSpotlightNavProps> = ({
       <div 
         className="absolute top-0 h-[2px] bg-orange transition-all duration-400 ease-in-out"
         style={{
-          left: `${activeIndex * 64 + 16}px`,
-          width: '48px',
+          left: `${activeIndex * 100 + 16}px`,
+          width: '70px',
           transform: 'translateY(-1px)',
         }}
       />
       {navItems.map((item, index) => (
         <NavItem
           key={item.label}
-          icon={item.icon}
+          label={item.label}
           isActive={activeIndex === index}
           onClick={() => onNavigate(index)}
           indicatorPosition={activeIndex}
