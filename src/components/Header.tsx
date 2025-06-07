@@ -102,7 +102,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation - Melhor alinhamento */}
-          <nav className="hidden lg:flex items-center justify-center gap-8 xl:gap-10">
+          <nav className="hidden lg:flex items-center justify-center space-x-8 xl:space-x-10">
             <button
               onClick={() => scrollToSection('sobre')}
               className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"

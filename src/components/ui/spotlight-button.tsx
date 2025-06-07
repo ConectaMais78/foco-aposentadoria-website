@@ -57,10 +57,8 @@ export const AdminSpotlightNav: React.FC<AdminSpotlightNavProps> = ({
   onNavigate 
 }) => {
   const navItems = [
-    { label: 'Dashboard' },
     { label: 'Blog' },
     { label: 'Mensagens' },
-    { label: 'Admin' },
     { label: 'Sair' },
   ];
 

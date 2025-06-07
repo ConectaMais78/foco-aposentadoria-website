@@ -14,7 +14,6 @@ import AdminLayout from "./components/Admin/AdminLayout";
 import AdminLogin from "./components/Admin/AdminLogin";
 import AdminBlogPosts from "./components/Admin/AdminBlogPosts";
 import AdminMessages from "./components/Admin/AdminMessages";
-import Dashboard from "./components/Admin/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -30,12 +29,10 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="/admin" element={<Navigate to="/admin/blog" replace />} />
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
               <Route path="/admin/blog" element={<AdminLayout><AdminBlogPosts /></AdminLayout>} />
               <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-              <Route path="/admin/settings" element={<AdminLayout><div className="text-white">Configurações em desenvolvimento</div></AdminLayout>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

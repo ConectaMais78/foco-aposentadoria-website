@@ -167,7 +167,10 @@ function HeroGeometric({
                     >
                         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-6 md:mb-8 tracking-tight leading-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
-                                {title1}
+                                {title1.replace('aposentadoria', '')}
+                            </span>
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange via-white/90 to-orangeLight whitespace-nowrap">
+                                aposentadoria
                             </span>
                             <br />
                             <span
