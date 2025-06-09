@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, User, Clock, Tag, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock, Tag, Share2, Facebook, Twitter, Linkedin, BookOpen } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -10,6 +10,7 @@ const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<any | null>(null);
+  const [suggestedPosts, setSuggestedPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
@@ -22,6 +23,10 @@ const BlogPost = () => {
       
       if (foundPost) {
         setPost(foundPost);
+        // Get 3 random posts excluding the current one for suggestions
+        const otherPosts = posts.filter((p: any) => p.id.toString() !== id);
+        const shuffled = otherPosts.sort(() => 0.5 - Math.random());
+        setSuggestedPosts(shuffled.slice(0, 3));
       }
     }
     
@@ -35,21 +40,25 @@ const BlogPost = () => {
   const shareUrl = window.location.href;
   const shareTitle = post?.title || '';
   
+  const handleContactClick = () => {
+    navigate("/#contato");
+  };
+  
   if (loading) {
     return (
-      <div className="min-h-screen bg-deepNavy flex items-center justify-center">
-        <div className="text-white text-xl animate-pulse">Carregando...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-deepNavy text-xl animate-pulse">Carregando...</div>
       </div>
     );
   }
   
   if (!post) {
     return (
-      <div className="min-h-screen bg-deepNavy flex flex-col">
+      <div className="min-h-screen bg-white flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center animate-fade-in">
-            <h2 className="text-2xl font-bold text-white mb-4">Artigo não encontrado</h2>
+            <h2 className="text-2xl font-bold text-deepNavy mb-4">Artigo não encontrado</h2>
             <Button 
               onClick={() => navigate("/blog")}
               className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 hover:scale-105"
@@ -64,11 +73,11 @@ const BlogPost = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-deepNavy via-navy to-deepNavy">
+    <div className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
-      <div className="relative pt-24 pb-16">
+      <div className="relative pt-24 pb-16 bg-gradient-to-b from-deepNavy via-navy to-deepNavy">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-4xl mx-auto animate-fade-in">
             <Button 
@@ -111,7 +120,7 @@ const BlogPost = () => {
       </div>
 
       {/* Featured Image */}
-      <div className="container mx-auto px-6 md:px-8 mb-12">
+      <div className="container mx-auto px-6 md:px-8 mb-12 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl animate-scale-in group">
             <img 
@@ -125,7 +134,7 @@ const BlogPost = () => {
       </div>
       
       {/* Article Content */}
-      <div className="container mx-auto px-6 md:px-8 pb-16">
+      <div className="container mx-auto px-6 md:px-8 pb-16 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
             
@@ -138,24 +147,24 @@ const BlogPost = () => {
                   <Tag className="mr-2 h-4 w-4" />
                   Resumo do artigo
                 </p>
-                <p className="text-gray-300 text-lg leading-relaxed">{post.excerpt}</p>
+                <p className="text-gray-700 text-lg leading-relaxed">{post.excerpt}</p>
               </div>
               
               {/* Article Content */}
-              <div className="prose prose-invert prose-lg max-w-none">
-                <div className="text-white/90 leading-relaxed text-lg space-y-6">
+              <div className="prose prose-lg max-w-none">
+                <div className="text-gray-800 leading-relaxed text-lg space-y-6">
                   <div 
                     dangerouslySetInnerHTML={renderContentWithImages(post.content)}
-                    className="blog-content [&>p]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-white [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-3 [&>ul]:space-y-2 [&>li]:text-gray-300 [&>strong]:text-white [&>em]:text-orange/80"
+                    className="blog-content [&>p]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-deepNavy [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-deepNavy [&>h3]:mt-6 [&>h3]:mb-3 [&>ul]:space-y-2 [&>li]:text-gray-700 [&>strong]:text-deepNavy [&>em]:text-orange/80"
                   />
                 </div>
               </div>
               
               {/* Sharing Section */}
-              <div className="mt-16 pt-8 border-t border-white/20">
+              <div className="mt-16 pt-8 border-t border-gray-200">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 animate-fade-in">
                   <div className="flex items-center gap-4">
-                    <span className="text-gray-300 font-medium flex items-center">
+                    <span className="text-gray-600 font-medium flex items-center">
                       <Share2 className="mr-2 h-4 w-4 text-orange" />
                       Compartilhar:
                     </span>
@@ -187,7 +196,7 @@ const BlogPost = () => {
                     </div>
                   </div>
                   
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm text-gray-500">
                     Publicado em {post.date}
                   </div>
                 </div>
@@ -200,12 +209,12 @@ const BlogPost = () => {
                 
                 {/* Contact CTA */}
                 <div className="bg-gradient-to-br from-orange/20 to-orangeLight/20 border border-orange/30 rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:border-orange/50 group">
-                  <h3 className="text-white font-bold text-lg mb-3 group-hover:text-orange transition-colors">Precisa de ajuda?</h3>
-                  <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+                  <h3 className="text-deepNavy font-bold text-lg mb-3 group-hover:text-orange transition-colors">Precisa de ajuda?</h3>
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
                     Nossa equipe está pronta para ajudar você com seus direitos previdenciários.
                   </p>
                   <Button 
-                    onClick={() => navigate("/#contato")}
+                    onClick={handleContactClick}
                     className="w-full bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
                   >
                     Entre em Contato
@@ -213,24 +222,24 @@ const BlogPost = () => {
                 </div>
                 
                 {/* Article Info */}
-                <div className="bg-navy/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm transition-all duration-300 hover:bg-navy/50 hover:border-white/20">
-                  <h3 className="text-white font-bold text-lg mb-6 text-center">Informações do Artigo</h3>
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 backdrop-blur-sm transition-all duration-300 hover:bg-gray-100 hover:border-gray-300">
+                  <h3 className="text-deepNavy font-bold text-lg mb-6 text-center">Informações do Artigo</h3>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-white/10">
-                      <span className="text-gray-400 text-sm">Autor:</span>
-                      <span className="text-white font-medium">{post.author}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-500 text-sm">Autor:</span>
+                      <span className="text-deepNavy font-medium">{post.author}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/10">
-                      <span className="text-gray-400 text-sm">Categoria:</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-500 text-sm">Categoria:</span>
                       <span className="text-orange font-medium">{post.category}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/10">
-                      <span className="text-gray-400 text-sm">Tempo de leitura:</span>
-                      <span className="text-white font-medium">{post.readTime}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-500 text-sm">Tempo de leitura:</span>
+                      <span className="text-deepNavy font-medium">{post.readTime}</span>
                     </div>
                     <div className="flex justify-between items-center py-2">
-                      <span className="text-gray-400 text-sm">Data:</span>
-                      <span className="text-white font-medium">{post.date}</span>
+                      <span className="text-gray-500 text-sm">Data:</span>
+                      <span className="text-deepNavy font-medium">{post.date}</span>
                     </div>
                   </div>
                 </div>
@@ -239,6 +248,69 @@ const BlogPost = () => {
           </div>
         </div>
       </div>
+
+      {/* Suggested Articles Section */}
+      {suggestedPosts.length > 0 && (
+        <div className="bg-gray-50 py-16">
+          <div className="container mx-auto px-6 md:px-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-deepNavy mb-4 flex items-center justify-center">
+                  <BookOpen className="mr-3 h-8 w-8 text-orange" />
+                  Continue Lendo
+                </h2>
+                <p className="text-gray-600 text-lg">Outros artigos que podem interessar você</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {suggestedPosts.map((suggestedPost) => (
+                  <div
+                    key={suggestedPost.id}
+                    onClick={() => navigate(`/blog/${suggestedPost.id}`)}
+                    className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={suggestedPost.image || '/placeholder.svg'}
+                        alt={suggestedPost.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      {suggestedPost.category && (
+                        <span className="absolute top-4 left-4 bg-gradient-to-r from-orange to-orangeLight text-white text-xs font-medium px-3 py-1 rounded-full">
+                          {suggestedPost.category}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold text-deepNavy mb-3 line-clamp-2 group-hover:text-orange transition-colors duration-300">
+                        {suggestedPost.title}
+                      </h3>
+                      
+                      <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                        <div className="flex items-center">
+                          <User className="h-4 w-4 mr-1" />
+                          {suggestedPost.author}
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {suggestedPost.date}
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-orange font-medium text-sm">Ler artigo</span>
+                        <ArrowLeft className="h-4 w-4 text-orange rotate-180 group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <Footer />
     </div>
