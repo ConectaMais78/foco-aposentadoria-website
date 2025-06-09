@@ -17,6 +17,12 @@ import AdminMessages from "./components/Admin/AdminMessages";
 
 const queryClient = new QueryClient();
 
+// Componente para proteger rotas administrativas
+const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const user = JSON.parse(localStorage.getItem('adminUser') || 'null');
+  return user ? children : <Navigate to="/admin/login" replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -29,10 +35,18 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/admin" element={<Navigate to="/admin/blog" replace />} />
+              <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin/blog" element={<AdminLayout><AdminBlogPosts /></AdminLayout>} />
-              <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
+              <Route path="/admin/blog" element={
+                <ProtectedAdminRoute>
+                  <AdminLayout><AdminBlogPosts /></AdminLayout>
+                </ProtectedAdminRoute>
+              } />
+              <Route path="/admin/messages" element={
+                <ProtectedAdminRoute>
+                  <AdminLayout><AdminMessages /></AdminLayout>
+                </ProtectedAdminRoute>
+              } />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

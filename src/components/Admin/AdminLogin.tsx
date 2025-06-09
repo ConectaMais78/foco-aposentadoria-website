@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -117,12 +118,6 @@ const AdminLogin = () => {
               )}
             </Button>
           </form>
-
-          <div className="mt-8 text-center text-sm text-gray-400 bg-darkNavy/30 p-4 rounded-lg border border-gray-600/30">
-            <p className="text-orange font-medium mb-2">Credenciais de teste:</p>
-            <p>Email: pnilson93@gmail.com</p>
-            <p>Senha: Sevilla2018</p>
-          </div>
         </div>
       </div>
     </div>
