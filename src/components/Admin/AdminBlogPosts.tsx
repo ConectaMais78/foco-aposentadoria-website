@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Trash2, Plus, Save, Star, Image as ImageIcon } from "lucide-react";
+import { Edit, Trash2, Plus, Save, Star, ArrowLeft, Eye } from "lucide-react";
 import { toast } from "sonner";
+import ImageUpload from "./ImageUpload";
 
 interface BlogPost {
   id: number;
@@ -137,123 +138,240 @@ const AdminBlogPosts = () => {
     localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
     toast.success("Artigo em destaque atualizado!");
   };
+
+  const handleBackToList = () => {
+    setEditing(null);
+    setShowForm(false);
+  };
   
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Gerenciar Blog</h1>
-        <Button onClick={handleCreateNew} className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="mr-2 h-4 w-4" />
-          Novo Artigo
-        </Button>
-      </div>
-      
-      {showForm && editing ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>{editing.id === 0 ? 'Criar Novo Artigo' : 'Editar Artigo'}</CardTitle>
+      {!showForm ? (
+        <>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-white font-playfair">Gerenciar Blog</h1>
+              <p className="text-gray-300 mt-1">{posts.length} artigos publicados</p>
+            </div>
+            <Button 
+              onClick={handleCreateNew} 
+              className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Novo Artigo
+            </Button>
+          </div>
+          
+          <div className="grid gap-4">
+            {posts.map((post) => (
+              <Card key={post.id} className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10 hover:border-orange/30 transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex space-x-4 flex-1">
+                      <div className="relative group">
+                        <img 
+                          src={post.image || '/placeholder.svg'} 
+                          alt={post.title} 
+                          className="w-24 h-24 object-cover rounded-lg border border-white/10"
+                        />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                          <Eye className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h3 className="font-semibold text-lg text-white">{post.title}</h3>
+                          {post.isFeatured && (
+                            <Badge className="bg-gradient-to-r from-yellow-400 to-orange text-black font-medium">
+                              <Star className="w-3 h-3 mr-1 fill-current" />
+                              Destaque
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-gray-300 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-400">
+                          <span className="bg-white/10 px-2 py-1 rounded">{post.author}</span>
+                          <span className="bg-white/10 px-2 py-1 rounded">{post.date}</span>
+                          <span className="bg-orange/20 text-orange px-2 py-1 rounded font-medium">{post.category}</span>
+                          <span className="bg-white/10 px-2 py-1 rounded">{post.readTime}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2 ml-4">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => toggleFeatured(post.id)}
+                        className={`border-white/20 hover:bg-white/10 transition-all duration-200 ${
+                          post.isFeatured ? 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400' : 'text-gray-300'
+                        }`}
+                      >
+                        <Star className={`h-4 w-4 ${post.isFeatured ? 'fill-current' : ''}`} />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEdit(post)}
+                        className="border-blue-500/40 text-blue-400 hover:bg-blue-500/10 transition-all duration-200"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(post.id)}
+                        className="border-red-500/40 text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+            
+            {posts.length === 0 && (
+              <Card className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10">
+                <CardContent className="text-center py-12">
+                  <div className="text-gray-400 space-y-3">
+                    <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto">
+                      <Plus className="w-8 h-8" />
+                    </div>
+                    <p className="text-lg font-medium">Nenhum artigo encontrado</p>
+                    <p className="text-sm">Crie seu primeiro artigo para começar</p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </>
+      ) : (
+        <Card className="bg-gradient-to-br from-navy/80 to-darkNavy/80 backdrop-blur-sm border-white/10">
+          <CardHeader className="border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleBackToList}
+                  className="border-white/20 text-gray-300 hover:bg-white/10"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-1" />
+                  Voltar
+                </Button>
+                <CardTitle className="text-white">
+                  {editing?.id === 0 ? 'Criar Novo Artigo' : 'Editar Artigo'}
+                </CardTitle>
+              </div>
+            </div>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSave} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Título</label>
-                <Input
-                  value={editing.title}
-                  onChange={(e) => setEditing({...editing, title: e.target.value})}
-                  required
-                />
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
+          <CardContent className="p-6">
+            <form onSubmit={handleSave} className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-gray-200">Título</label>
+                    <Input
+                      value={editing?.title || ''}
+                      onChange={(e) => setEditing({...editing!, title: e.target.value})}
+                      placeholder="Digite o título do artigo..."
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-400"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2 text-gray-200">Autor</label>
+                      <Input
+                        value={editing?.author || ''}
+                        onChange={(e) => setEditing({...editing!, author: e.target.value})}
+                        className="bg-white/5 border-white/10 text-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2 text-gray-200">Categoria</label>
+                      <select
+                        value={editing?.category || ''}
+                        onChange={(e) => setEditing({...editing!, category: e.target.value})}
+                        className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-white"
+                        required
+                      >
+                        <option value="Aposentadoria" className="bg-darkNavy">Aposentadoria</option>
+                        <option value="INSS" className="bg-darkNavy">INSS</option>
+                        <option value="Benefícios" className="bg-darkNavy">Benefícios</option>
+                        <option value="Revisões" className="bg-darkNavy">Revisões</option>
+                        <option value="Direitos" className="bg-darkNavy">Direitos</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-gray-200">Resumo</label>
+                    <Textarea
+                      value={editing?.excerpt || ''}
+                      onChange={(e) => setEditing({...editing!, excerpt: e.target.value})}
+                      rows={3}
+                      placeholder="Escreva um resumo atrativo do artigo..."
+                      className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-3 p-4 bg-white/5 rounded-lg border border-white/10">
+                    <input
+                      type="checkbox"
+                      id="featured"
+                      checked={editing?.isFeatured || false}
+                      onChange={(e) => setEditing({...editing!, isFeatured: e.target.checked})}
+                      className="w-4 h-4 text-orange bg-white/10 border-white/20 rounded focus:ring-orange focus:ring-2"
+                    />
+                    <label htmlFor="featured" className="text-sm font-medium text-gray-200 cursor-pointer">
+                      <Star className="w-4 h-4 inline mr-1" />
+                      Artigo em destaque
+                    </label>
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-sm font-medium mb-2">Autor</label>
-                  <Input
-                    value={editing.author}
-                    onChange={(e) => setEditing({...editing, author: e.target.value})}
-                    required
+                  <label className="block text-sm font-medium mb-2 text-gray-200">Imagem do Artigo</label>
+                  <ImageUpload
+                    value={editing?.image || ''}
+                    onChange={(url) => setEditing({...editing!, image: url})}
+                    onRemove={() => setEditing({...editing!, image: ''})}
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Categoria</label>
-                  <select
-                    value={editing.category}
-                    onChange={(e) => setEditing({...editing, category: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    required
-                  >
-                    <option value="Aposentadoria">Aposentadoria</option>
-                    <option value="INSS">INSS</option>
-                    <option value="Benefícios">Benefícios</option>
-                    <option value="Revisões">Revisões</option>
-                    <option value="Direitos">Direitos</option>
-                  </select>
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2">URL da Imagem</label>
-                <div className="flex gap-2">
-                  <Input
-                    value={editing.image}
-                    onChange={(e) => setEditing({...editing, image: e.target.value})}
-                    placeholder="https://exemplo.com/imagem.jpg"
-                  />
-                  <Button type="button" variant="outline">
-                    <ImageIcon className="h-4 w-4" />
-                  </Button>
-                </div>
-                {editing.image && (
-                  <img 
-                    src={editing.image} 
-                    alt="Preview" 
-                    className="mt-2 h-32 w-48 object-cover rounded border"
-                  />
-                )}
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Resumo</label>
+                <label className="block text-sm font-medium mb-2 text-gray-200">Conteúdo do Artigo</label>
                 <Textarea
-                  value={editing.excerpt}
-                  onChange={(e) => setEditing({...editing, excerpt: e.target.value})}
-                  rows={2}
+                  value={editing?.content || ''}
+                  onChange={(e) => setEditing({...editing!, content: e.target.value})}
+                  rows={12}
+                  placeholder="Escreva o conteúdo completo do artigo..."
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none"
                   required
                 />
+                <p className="text-xs text-gray-400 mt-1">
+                  Tempo de leitura estimado: {editing?.content ? calculateReadTime(editing.content) : '0 min'}
+                </p>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium mb-2">Conteúdo</label>
-                <Textarea
-                  value={editing.content}
-                  onChange={(e) => setEditing({...editing, content: e.target.value})}
-                  rows={8}
-                  required
-                />
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={editing.isFeatured}
-                  onChange={(e) => setEditing({...editing, isFeatured: e.target.checked})}
-                  className="rounded"
-                />
-                <label htmlFor="featured" className="text-sm font-medium">Artigo em destaque</label>
-              </div>
-              
-              <div className="flex space-x-2">
-                <Button type="submit" className="bg-green-600 hover:bg-green-700">
+              <div className="flex space-x-3 pt-4 border-t border-white/10">
+                <Button 
+                  type="submit" 
+                  className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
                   <Save className="mr-2 h-4 w-4" />
-                  Salvar
+                  {editing?.id === 0 ? 'Publicar Artigo' : 'Salvar Alterações'}
                 </Button>
                 <Button 
                   type="button" 
                   variant="outline" 
-                  onClick={() => {
-                    setEditing(null);
-                    setShowForm(false);
-                  }}
+                  onClick={handleBackToList}
+                  className="border-white/20 text-gray-300 hover:bg-white/10"
                 >
                   Cancelar
                 </Button>
@@ -261,75 +379,6 @@ const AdminBlogPosts = () => {
             </form>
           </CardContent>
         </Card>
-      ) : (
-        <div className="grid gap-4">
-          {posts.map((post) => (
-            <Card key={post.id}>
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex space-x-4 flex-1">
-                    <img 
-                      src={post.image || '/placeholder.svg'} 
-                      alt={post.title} 
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="font-semibold text-lg">{post.title}</h3>
-                        {post.isFeatured && (
-                          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                            <Star className="w-3 h-3 mr-1" />
-                            Destaque
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-gray-600 text-sm mt-1">{post.excerpt}</p>
-                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                        <span>{post.author}</span>
-                        <span>{post.date}</span>
-                        <span>{post.category}</span>
-                        <span>{post.readTime}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => toggleFeatured(post.id)}
-                      className={post.isFeatured ? "bg-yellow-50" : ""}
-                    >
-                      <Star className={`h-4 w-4 ${post.isFeatured ? 'text-yellow-600' : ''}`} />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(post)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(post.id)}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          
-          {posts.length === 0 && (
-            <Card>
-              <CardContent className="text-center py-10">
-                <p className="text-gray-500">Nenhum artigo encontrado</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
       )}
     </div>
   );

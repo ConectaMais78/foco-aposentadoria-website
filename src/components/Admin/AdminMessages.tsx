@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Eye, Trash2, Mail, Phone, Clock, User, Send, Reply } from "lucide-react";
+import { Eye, Trash2, Mail, Phone, Clock, User, Send, Reply, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useAdmin } from "@/contexts/AdminContext";
 import { ContactMessage } from "@/types/admin";
@@ -63,6 +63,14 @@ const AdminMessages = () => {
     }
     setIsReplying(false);
     setReplyText('');
+  };
+
+  const copyToClipboard = (text: string, type: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success(`${type} copiado para a área de transferência!`);
+    }).catch(() => {
+      toast.error(`Erro ao copiar ${type.toLowerCase()}`);
+    });
   };
 
   const filteredMessages = messages.filter(message => {
@@ -198,15 +206,35 @@ const AdminMessages = () => {
                       <span className="font-medium">Nome:</span>
                       <span className="ml-1">{selectedMessage.name}</span>
                     </div>
-                    <div className="flex items-center text-gray-300">
-                      <Mail className="h-4 w-4 mr-2 text-gray-500" />
-                      <span className="font-medium">Email:</span>
-                      <span className="ml-1">{selectedMessage.email}</span>
+                    <div className="flex items-center justify-between text-gray-300">
+                      <div className="flex items-center">
+                        <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                        <span className="font-medium">Email:</span>
+                        <span className="ml-1">{selectedMessage.email}</span>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => copyToClipboard(selectedMessage.email, 'Email')}
+                        className="h-6 px-2 bg-white/5 hover:bg-white/10 border-white/20"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
-                    <div className="flex items-center text-gray-300">
-                      <Phone className="h-4 w-4 mr-2 text-gray-500" />
-                      <span className="font-medium">Telefone:</span>
-                      <span className="ml-1">{selectedMessage.phone}</span>
+                    <div className="flex items-center justify-between text-gray-300">
+                      <div className="flex items-center">
+                        <Phone className="h-4 w-4 mr-2 text-gray-500" />
+                        <span className="font-medium">Telefone:</span>
+                        <span className="ml-1">{selectedMessage.phone}</span>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => copyToClipboard(selectedMessage.phone, 'Telefone')}
+                        className="h-6 px-2 bg-white/5 hover:bg-white/10 border-white/20"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
                     </div>
                     <div className="flex items-center text-gray-300">
                       <Clock className="h-4 w-4 mr-2 text-gray-500" />
