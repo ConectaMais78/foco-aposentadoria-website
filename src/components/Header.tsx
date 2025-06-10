@@ -109,12 +109,12 @@ const Header = () => {
             >
               Sobre
             </button>
-            <Link
-              to="/blog"
+            <button
+              onClick={() => scrollToSection('blog')}
               className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Blog
-            </Link>
+            </button>
             <button
               onClick={() => scrollToSection('servicos')}
               className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
@@ -168,13 +168,12 @@ const Header = () => {
             >
               Sobre
             </button>
-            <Link
-              to="/blog"
-              className="text-white/80 hover:text-white transition-colors font-medium py-3 text-lg touch-manipulation"
-              onClick={toggleMenu}
+            <button
+              onClick={() => scrollToSection('blog')}
+              className="text-white/80 hover:text-white transition-colors font-medium py-3 text-left text-lg touch-manipulation"
             >
               Blog
-            </Link>
+            </button>
             <button
               onClick={() => scrollToSection('servicos')}
               className="text-white/80 hover:text-white transition-colors font-medium py-3 text-left text-lg touch-manipulation"
