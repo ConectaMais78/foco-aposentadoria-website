@@ -14,6 +14,9 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    // Scroll to top when component mounts or id changes
+    window.scrollTo(0, 0);
+    
     // In a real app, this would fetch the blog post from a database
     // Here we'll load posts from localStorage and find the requested one
     const storedPosts = localStorage.getItem('blogPosts');
@@ -77,9 +80,9 @@ const BlogPost = () => {
       <Header />
       
       {/* Hero Section */}
-      <div className="relative pt-24 pb-16 bg-gradient-to-b from-deepNavy via-navy to-deepNavy">
+      <div className="relative pt-24 pb-12 bg-gradient-to-b from-deepNavy via-navy to-deepNavy">
         <div className="container mx-auto px-6 md:px-8">
-          <div className="max-w-4xl mx-auto animate-fade-in">
+          <div className="max-w-5xl mx-auto animate-fade-in">
             <Button 
               variant="ghost"
               onClick={() => navigate("/blog")}
@@ -119,9 +122,9 @@ const BlogPost = () => {
         </div>
       </div>
 
-      {/* Featured Image */}
-      <div className="container mx-auto px-6 md:px-8 mb-12 bg-white">
-        <div className="max-w-4xl mx-auto">
+      {/* Featured Image - Increased margin-bottom for separation */}
+      <div className="container mx-auto px-6 md:px-8 mt-16 mb-20 bg-white">
+        <div className="max-w-5xl mx-auto">
           <div className="relative rounded-2xl overflow-hidden shadow-2xl animate-scale-in group">
             <img 
               src={post.image || '/placeholder.svg'} 
@@ -133,35 +136,26 @@ const BlogPost = () => {
         </div>
       </div>
       
-      {/* Article Content */}
+      {/* Article Content - Wider structure */}
       <div className="container mx-auto px-6 md:px-8 pb-16 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
             
-            {/* Main Content */}
+            {/* Main Content - Wider column span */}
             <article className="lg:col-span-3 animate-fade-in">
               
-              {/* Article Summary */}
-              <div className="bg-gradient-to-r from-orange/10 to-orangeLight/10 border-l-4 border-orange rounded-r-lg p-6 mb-12 transition-all duration-300 hover:shadow-lg hover:from-orange/15 hover:to-orangeLight/15">
-                <p className="text-orange font-semibold mb-3 flex items-center">
-                  <Tag className="mr-2 h-4 w-4" />
-                  Resumo do artigo
-                </p>
-                <p className="text-gray-700 text-lg leading-relaxed">{post.excerpt}</p>
-              </div>
-              
-              {/* Article Content */}
-              <div className="prose prose-lg max-w-none">
-                <div className="text-gray-800 leading-relaxed text-lg space-y-6">
+              {/* Article Content - Improved spacing and width */}
+              <div className="prose prose-xl max-w-none">
+                <div className="text-gray-800 leading-relaxed text-lg space-y-8">
                   <div 
                     dangerouslySetInnerHTML={renderContentWithImages(post.content)}
-                    className="blog-content [&>p]:mb-6 [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:text-deepNavy [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-deepNavy [&>h3]:mt-6 [&>h3]:mb-3 [&>ul]:space-y-2 [&>li]:text-gray-700 [&>strong]:text-deepNavy [&>em]:text-orange/80"
+                    className="blog-content [&>p]:mb-8 [&>p]:text-lg [&>p]:leading-loose [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:text-deepNavy [&>h2]:mt-12 [&>h2]:mb-6 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:text-deepNavy [&>h3]:mt-10 [&>h3]:mb-5 [&>ul]:space-y-3 [&>li]:text-lg [&>li]:text-gray-700 [&>li]:leading-relaxed [&>strong]:text-deepNavy [&>em]:text-orange/80 [&>blockquote]:my-8 [&>blockquote]:text-xl [&>blockquote]:leading-loose"
                   />
                 </div>
               </div>
               
               {/* Sharing Section */}
-              <div className="mt-16 pt-8 border-t border-gray-200">
+              <div className="mt-20 pt-8 border-t border-gray-200">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 animate-fade-in">
                   <div className="flex items-center gap-4">
                     <span className="text-gray-600 font-medium flex items-center">
@@ -203,7 +197,7 @@ const BlogPost = () => {
               </div>
             </article>
             
-            {/* Sidebar */}
+            {/* Sidebar - Narrower column */}
             <aside className="lg:col-span-1">
               <div className="sticky top-24 space-y-8 animate-slide-in-right">
                 
@@ -253,7 +247,7 @@ const BlogPost = () => {
       {suggestedPosts.length > 0 && (
         <div className="bg-gray-50 py-16">
           <div className="container mx-auto px-6 md:px-8">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-deepNavy mb-4 flex items-center justify-center">
                   <BookOpen className="mr-3 h-8 w-8 text-orange" />
@@ -266,7 +260,9 @@ const BlogPost = () => {
                 {suggestedPosts.map((suggestedPost) => (
                   <div
                     key={suggestedPost.id}
-                    onClick={() => navigate(`/blog/${suggestedPost.id}`)}
+                    onClick={() => {
+                      navigate(`/blog/${suggestedPost.id}`);
+                    }}
                     className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:scale-105"
                   >
                     <div className="relative h-48 overflow-hidden">
