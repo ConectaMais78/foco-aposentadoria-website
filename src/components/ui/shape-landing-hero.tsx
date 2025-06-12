@@ -2,8 +2,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Circle } from "lucide-react";
+import { Circle, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 function ElegantShape({
     className,
@@ -91,6 +92,10 @@ function HeroGeometric({
                 ease: [0.25, 0.4, 0.25, 1],
             },
         }),
+    };
+
+    const handleContactClick = () => {
+        window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
     };
 
     return (
@@ -192,6 +197,23 @@ function HeroGeometric({
                         <p className="text-base sm:text-lg md:text-xl text-white/70 mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4">
                             Há mais de 15 anos ajudamos nossos clientes a conquistar seus benefícios previdenciários com segurança jurídica e eficiência.
                         </p>
+                    </motion.div>
+
+                    <motion.div
+                        custom={3}
+                        variants={fadeUpVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="flex justify-center"
+                    >
+                        <Button
+                            onClick={handleContactClick}
+                            size="lg"
+                            className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg px-8 py-4 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl animate-glow"
+                        >
+                            <MessageSquare className="mr-2 h-5 w-5" />
+                            Fale Conosco Agora
+                        </Button>
                     </motion.div>
                 </div>
             </div>

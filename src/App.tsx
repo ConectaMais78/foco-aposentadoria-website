@@ -23,10 +23,10 @@ const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
   return user ? children : <Navigate to="/admin/login" replace />;
 };
 
-// Componente para redirecionar /admin para login
+// Componente para redirecionar /admin para login se não autenticado
 const AdminRedirect = () => {
   const { user } = useAuth();
-  return <Navigate to="/admin/login" replace />;
+  return user ? <Navigate to="/admin/blog" replace /> : <Navigate to="/admin/login" replace />;
 };
 
 const App = () => (
