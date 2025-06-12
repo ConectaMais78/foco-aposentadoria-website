@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, User, Clock, Tag, Share2, Facebook, Twitter, Linkedin, BookOpen } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock, Tag, Share2, Facebook, Twitter, Linkedin, BookOpen, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -44,7 +43,7 @@ const BlogPost = () => {
   const shareTitle = post?.title || '';
   
   const handleContactClick = () => {
-    navigate("/#contato");
+    window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
   };
   
   if (loading) {
@@ -151,6 +150,24 @@ const BlogPost = () => {
                     dangerouslySetInnerHTML={renderContentWithImages(post.content)}
                     className="blog-content [&>p]:mb-8 [&>p]:text-lg [&>p]:leading-loose [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:text-deepNavy [&>h2]:mt-12 [&>h2]:mb-6 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:text-deepNavy [&>h3]:mt-10 [&>h3]:mb-5 [&>ul]:space-y-3 [&>li]:text-lg [&>li]:text-gray-700 [&>li]:leading-relaxed [&>strong]:text-deepNavy [&>em]:text-orange/80 [&>blockquote]:my-8 [&>blockquote]:text-xl [&>blockquote]:leading-loose"
                   />
+                </div>
+              </div>
+              
+              {/* Contact CTA Section */}
+              <div className="mt-16 p-8 bg-gradient-to-br from-orange/10 to-orangeLight/10 border border-orange/20 rounded-xl">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-deepNavy mb-4">Precisa de Ajuda com Seus Direitos Previdenciários?</h3>
+                  <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+                    Nossa equipe de especialistas está pronta para analisar seu caso e ajudar você a conquistar seus direitos. 
+                    Entre em contato conosco agora mesmo!
+                  </p>
+                  <Button 
+                    onClick={handleContactClick}
+                    className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg px-8 py-4 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    Fale Conosco no WhatsApp
+                  </Button>
                 </div>
               </div>
               

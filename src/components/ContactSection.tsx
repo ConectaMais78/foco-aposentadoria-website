@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock, Instagram } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram, MessageCircle } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 
 const ContactSection = () => {
@@ -58,6 +58,10 @@ const ContactSection = () => {
     
     // Show success message
     toast.success("Mensagem enviada com sucesso! Entraremos em contato em breve.");
+  };
+
+  const handleWhatsAppClick = () => {
+    window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
   };
 
   return (
@@ -167,20 +171,14 @@ const ContactSection = () => {
                   Enviar mensagem
                 </Button>
                 
-                <a 
-                  href="https://www.instagram.com/foconaaposentadoria/?hl=es" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full"
+                <Button
+                  type="button"
+                  onClick={handleWhatsAppClick}
+                  className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg w-full transition-all duration-300"
                 >
-                  <Button
-                    type="button"
-                    className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-medium text-lg w-full transition-all duration-300"
-                  >
-                    <Instagram className="mr-2 h-5 w-5" />
-                    Siga-nos no Instagram
-                  </Button>
-                </a>
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Fale Conosco no WhatsApp
+                </Button>
               </div>
             </form>
           </div>

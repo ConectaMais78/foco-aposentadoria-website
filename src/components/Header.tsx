@@ -83,6 +83,17 @@ const Header = () => {
     setIsOpen(false);
   };
 
+  const handleBlogClick = () => {
+    if (location.pathname === '/') {
+      // Se estamos na página inicial, rola para a seção blog
+      scrollToSection('blog');
+    } else {
+      // Se estamos em outra página, navega para a página de blog
+      window.location.href = '/blog';
+    }
+    setIsOpen(false);
+  };
+
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -110,7 +121,7 @@ const Header = () => {
               Sobre
             </button>
             <button
-              onClick={() => scrollToSection('blog')}
+              onClick={handleBlogClick}
               className="text-white/80 hover:text-white transition-colors font-medium text-sm xl:text-base whitespace-nowrap"
             >
               Blog
@@ -169,7 +180,7 @@ const Header = () => {
               Sobre
             </button>
             <button
-              onClick={() => scrollToSection('blog')}
+              onClick={handleBlogClick}
               className="text-white/80 hover:text-white transition-colors font-medium py-3 text-left text-lg touch-manipulation"
             >
               Blog
