@@ -1,10 +1,9 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import { Circle, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { StarBorder } from "@/components/ui/star-border";
 
 function ElegantShape({
     className,
@@ -206,14 +205,17 @@ function HeroGeometric({
                         animate="visible"
                         className="flex justify-center"
                     >
-                        <Button
+                        <StarBorder
                             onClick={handleContactClick}
-                            size="lg"
-                            className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg px-8 py-4 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl animate-glow"
+                            color="#FF7F11"
+                            speed="4s"
+                            className="cursor-pointer"
                         >
-                            <MessageSquare className="mr-2 h-5 w-5" />
-                            Fale Conosco Agora
-                        </Button>
+                            <div className="flex items-center">
+                                <MessageSquare className="mr-2 h-5 w-5" />
+                                Fale Conosco Agora
+                            </div>
+                        </StarBorder>
                     </motion.div>
                 </div>
             </div>
