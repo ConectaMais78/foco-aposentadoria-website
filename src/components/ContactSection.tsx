@@ -64,6 +64,10 @@ const ContactSection = () => {
     window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
   };
 
+  const handleInstagramClick = () => {
+    window.open('https://www.instagram.com/foconaaposentadoria', '_blank');
+  };
+
   return (
     <section id="contato" className="section-padding bg-darkNavy">
       <div className="container mx-auto">
@@ -174,10 +178,19 @@ const ContactSection = () => {
                 <Button
                   type="button"
                   onClick={handleWhatsAppClick}
-                  className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg w-full transition-all duration-300"
+                  className="bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 text-white font-medium text-lg w-full transition-all duration-300 shadow-lg"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Fale Conosco no WhatsApp
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleInstagramClick}
+                  className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:from-pink-600 hover:via-red-600 hover:to-yellow-600 text-white font-medium text-lg w-full transition-all duration-300 shadow-lg"
+                >
+                  <Instagram className="mr-2 h-5 w-5" />
+                  Siga-nos no Instagram
                 </Button>
               </div>
             </form>
