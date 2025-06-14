@@ -17,28 +17,28 @@ const NavItem: React.FC<NavItemProps> = ({
   position
 }) => {
   const distance = Math.abs(indicatorPosition - position);
-  const spotlightOpacity = isActive ? 0.8 : Math.max(0, 0.6 - distance * 0.4);
+  const spotlightOpacity = isActive ? 0.4 : Math.max(0, 0.2 - distance * 0.1);
 
   return (
     <button
-      className="relative flex items-center justify-center w-20 h-12 mx-2 transition-all duration-400"
+      className="relative flex items-center justify-center w-20 h-10 mx-1 transition-all duration-300"
       onClick={onClick}
     >
-      {/* Spotlight effect - mais visível */}
+      {/* Spotlight effect - mais sutil e integrado */}
       <div 
-        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-radial from-white/60 via-white/30 to-transparent blur-md rounded-full transition-all duration-400"
+        className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-gradient-radial from-orange/40 via-orange/20 to-transparent blur-sm rounded-full transition-all duration-300"
         style={{
           opacity: spotlightOpacity,
-          transitionDelay: isActive ? '0.1s' : '0s',
+          transitionDelay: isActive ? '0.05s' : '0s',
         }}
       />
-      {/* Background glow adicional para o item ativo */}
+      {/* Background suave para o item ativo */}
       {isActive && (
-        <div className="absolute inset-0 bg-white/10 rounded-md transition-all duration-300" />
+        <div className="absolute inset-0 bg-orange/5 border border-orange/20 rounded-lg transition-all duration-200" />
       )}
       <span
         className={`text-sm font-medium transition-colors duration-200 relative z-10 ${
-          isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'
+          isActive ? 'text-orange' : 'text-gray-400 hover:text-gray-200'
         }`}
       >
         {label}
@@ -63,14 +63,14 @@ export const AdminSpotlightNav: React.FC<AdminSpotlightNavProps> = ({
   ];
 
   return (
-    <nav className="relative flex items-center px-2 py-3 bg-black/90 backdrop-blur-sm rounded-md shadow-lg border border-white/10">
-      {/* Indicador superior */}
+    <nav className="relative flex items-center px-3 py-2 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700/50">
+      {/* Indicador superior mais sutil */}
       <div 
-        className="absolute top-0 h-[2px] bg-white transition-all duration-400 ease-in-out"
+        className="absolute top-0 h-[1px] bg-orange/60 transition-all duration-300 ease-in-out"
         style={{
-          left: `${activeIndex * 96 + 16}px`,
+          left: `${activeIndex * 88 + 12}px`,
           width: '80px',
-          transform: 'translateY(-1px)',
+          transform: 'translateY(-0.5px)',
         }}
       />
       {navItems.map((item, index) => (
