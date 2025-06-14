@@ -1,9 +1,12 @@
-
 import React from "react";
 import { Shield, FileText, ClipboardCheck, Gavel, Search, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ServiceSection = () => {
+  const handleWhatsAppClick = () => {
+    window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
+  };
+
   const services = [
     {
       id: 1,
@@ -86,10 +89,8 @@ const ServiceSection = () => {
               </p>
             </div>
             <div className="md:w-1/4 flex justify-center">
-              <Button asChild size="lg" className="bg-orange hover:bg-orangeLight text-white font-medium text-lg w-full md:w-auto">
-                <a href="#contato">
-                  Fale Conosco
-                </a>
+              <Button onClick={handleWhatsAppClick} size="lg" className="bg-orange hover:bg-orangeLight text-white font-medium text-lg w-full md:w-auto">
+                Fale Conosco
               </Button>
             </div>
           </div>

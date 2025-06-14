@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Accordion,
@@ -9,6 +8,10 @@ import {
 import { Button } from "@/components/ui/button";
 
 const FaqSection = () => {
+  const handleWhatsAppClick = () => {
+    window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
+  };
+
   const faqs = [
     {
       id: "faq-1",
@@ -82,10 +85,8 @@ const FaqSection = () => {
               </p>
             </div>
             <div className="md:w-1/3 flex justify-center">
-              <Button asChild size="lg" className="bg-orange hover:bg-orangeLight text-white font-medium text-lg px-8">
-                <a href="#contato">
-                  Agendar Consulta
-                </a>
+              <Button onClick={handleWhatsAppClick} size="lg" className="bg-orange hover:bg-orangeLight text-white font-medium text-lg px-8">
+                Agendar Consulta
               </Button>
             </div>
           </div>
