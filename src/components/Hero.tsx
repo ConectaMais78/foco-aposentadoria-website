@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
+  const handleWhatsAppClick = () => {
+    window.open('https://wa.me/5583991034305?text=Olá%2C%20tudo%20bem%3F', '_blank');
+  };
+
   return (
     <section 
       id="home" 
@@ -30,11 +34,9 @@ const Hero = () => {
             Há mais de 15 anos ajudamos nossos clientes a conquistar seus benefícios previdenciários com segurança jurídica e eficiência.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button asChild size="lg" className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg transition-all duration-300">
-              <a href="#contato">
-                Consulta Gratuita
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
+            <Button onClick={handleWhatsAppClick} size="lg" className="bg-gradient-to-r from-orange to-orangeLight hover:from-orangeLight hover:to-orange text-white font-medium text-lg transition-all duration-300">
+              Consulta Gratuita
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button asChild variant="outline" size="lg" className="bg-transparent hover:bg-white/10 text-white border-white/30 font-medium text-lg">
               <a href="#servicos">
