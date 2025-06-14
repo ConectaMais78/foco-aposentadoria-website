@@ -17,15 +17,51 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há um usuário logado no localStorage
-    const savedUser = localStorage.getItem('adminUser');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setIsLoading(false);
+    // Função para verificar autenticação com timeout de segurança
+    const checkAuth = async () => {
+      try {
+        console.log('Iniciando verificação de autenticação...');
+        
+        // Verificar se há um usuário logado no localStorage
+        const savedUser = localStorage.getItem('adminUser');
+        
+        if (savedUser) {
+          try {
+            const parsedUser = JSON.parse(savedUser);
+            console.log('Usuário encontrado no localStorage:', parsedUser.email);
+            
+            // Verificar se o usuário é válido (simples validação)
+            if (parsedUser.id && parsedUser.email && parsedUser.role) {
+              setUser(parsedUser);
+              console.log('Usuário autenticado com sucesso');
+            } else {
+              console.log('Dados de usuário inválidos, removendo do localStorage');
+              localStorage.removeItem('adminUser');
+            }
+          } catch (error) {
+            console.error('Erro ao parsear dados do usuário:', error);
+            localStorage.removeItem('adminUser');
+          }
+        } else {
+          console.log('Nenhum usuário encontrado no localStorage');
+        }
+      } catch (error) {
+        console.error('Erro durante verificação de autenticação:', error);
+      } finally {
+        // Garantir que o loading seja finalizado após a verificação
+        setTimeout(() => {
+          setIsLoading(false);
+          console.log('Verificação de autenticação concluída');
+        }, 500); // Pequeno delay para evitar flash
+      }
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
+    console.log('Tentativa de login para:', email);
+    
     // Simulação de autenticação - em produção, usar API real
     const mockUsers: User[] = [
       {
@@ -51,12 +87,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const userWithLogin = { ...foundUser, lastLogin: new Date().toISOString() };
       setUser(userWithLogin);
       localStorage.setItem('adminUser', JSON.stringify(userWithLogin));
+      console.log('Login realizado com sucesso para:', email);
       return true;
     }
+    
+    console.log('Falha no login para:', email);
     return false;
   };
 
   const logout = () => {
+    console.log('Logout realizado');
     setUser(null);
     localStorage.removeItem('adminUser');
   };

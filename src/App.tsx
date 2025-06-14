@@ -17,16 +17,46 @@ import AdminMessages from "./components/Admin/AdminMessages";
 
 const queryClient = new QueryClient();
 
+// Componente de loading para verificação de autenticação
+const AuthLoadingSpinner = () => (
+  <div className="min-h-screen bg-gradient-to-br from-deepNavy via-navy to-darkNavy flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange mx-auto mb-4"></div>
+      <p className="text-white">Verificando autenticação...</p>
+    </div>
+  </div>
+);
+
 // Componente para proteger rotas administrativas
 const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/admin/login" replace />;
+  const { user, isLoading } = useAuth();
+  
+  // Aguardar verificação de autenticação ser concluída
+  if (isLoading) {
+    return <AuthLoadingSpinner />;
+  }
+  
+  // Se não há usuário após verificação, redirecionar para login
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  
+  return <>{children}</>;
 };
 
-// Componente para redirecionar /admin para login se não autenticado
+// Componente para redirecionar /admin baseado no estado de autenticação
 const AdminRedirect = () => {
-  const { user } = useAuth();
-  return user ? <Navigate to="/admin/blog" replace /> : <Navigate to="/admin/login" replace />;
+  const { user, isLoading } = useAuth();
+  
+  // Aguardar verificação de autenticação ser concluída
+  if (isLoading) {
+    return <AuthLoadingSpinner />;
+  }
+  
+  // Após verificação, redirecionar conforme o estado
+  return user ? 
+    <Navigate to="/admin/blog" replace /> : 
+    <Navigate to="/admin/login" replace />;
 };
 
 const App = () => (
