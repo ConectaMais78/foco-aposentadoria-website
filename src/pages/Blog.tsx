@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Book, Clock, Calendar, User, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { dataService } from "@/services/dataService";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -20,33 +21,43 @@ const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   
   useEffect(() => {
-    // In a real app, this would fetch blog posts from a database
-    // Here we'll load posts from localStorage if they exist
-    const storedPosts = localStorage.getItem('blogPosts');
-    if (storedPosts) {
-      const parsedPosts = JSON.parse(storedPosts);
+    try {
+      // Usar o dataService para garantir dados consistentes
+      const allPosts = dataService.getBlogPosts();
       
-      // Get unique categories from posts
-      const uniqueCategories = Array.from(
-        new Set(parsedPosts.map((post: any) => post.category).filter(Boolean))
-      );
-      if (uniqueCategories.length > 0) {
-        setCategories(uniqueCategories as string[]);
+      if (allPosts && allPosts.length > 0) {
+        // Get unique categories from posts
+        const uniqueCategories = Array.from(
+          new Set(allPosts.map((post: any) => post.category).filter(Boolean))
+        );
+        if (uniqueCategories.length > 0) {
+          setCategories(uniqueCategories as string[]);
+        }
+        
+        setPosts(allPosts);
+        
+        // Find featured post - this should be set in the admin panel
+        const featured = allPosts.find((post: any) => post.isFeatured === true);
+        
+        if (featured) {
+          setFeaturedPost(featured);
+        } else if (allPosts.length > 0) {
+          // If no post is marked as featured, use the most recent one
+          const mostRecent = [...allPosts].sort((a, b) => {
+            const dateA = new Date(a.publishDate || a.date).getTime();
+            const dateB = new Date(b.publishDate || b.date).getTime();
+            return dateB - dateA;
+          })[0];
+          setFeaturedPost(mostRecent);
+        }
       }
-      
-      setPosts(parsedPosts);
-      
-      // Find featured post - this should be set in the admin panel
-      const featured = parsedPosts.find((post: any) => post.isFeatured === true);
-      
-      if (featured) {
-        setFeaturedPost(featured);
-      } else if (parsedPosts.length > 0) {
-        // If no post is marked as featured, use the most recent one
-        const mostRecent = [...parsedPosts].sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        })[0];
-        setFeaturedPost(mostRecent);
+    } catch (error) {
+      console.error('Erro ao carregar posts do blog:', error);
+      // Em caso de erro, dados padrão serão carregados pelo dataService
+      const defaultPosts = dataService.getBlogPosts();
+      setPosts(defaultPosts);
+      if (defaultPosts.length > 0) {
+        setFeaturedPost(defaultPosts[0]);
       }
     }
   }, []);
@@ -60,6 +71,19 @@ const Blog = () => {
   const regularPosts = featuredPost 
     ? filteredPosts.filter(post => post.id !== featuredPost.id)
     : filteredPosts;
+  
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+    } catch (error) {
+      return dateString;
+    }
+  };
   
   return (
     <div className="min-h-screen bg-deepNavy flex flex-col">
@@ -137,7 +161,7 @@ const Blog = () => {
                     <div className="flex justify-between items-center text-gray-400 text-sm mb-3">
                       <span className="flex items-center">
                         <Calendar className="mr-1 h-4 w-4 text-orange" />
-                        {featuredPost.date}
+                        {formatDate(featuredPost.publishDate || featuredPost.date)}
                       </span>
                       <div className="flex items-center gap-3">
                         <span className="flex items-center text-orange">
@@ -202,7 +226,7 @@ const Blog = () => {
                         <Clock className="mr-1 h-4 w-4 text-orange" />
                         {post.readTime || '5 min'}
                       </span>
-                      <span className="text-orange">{post.date}</span>
+                      <span className="text-orange">{formatDate(post.publishDate || post.date)}</span>
                     </div>
                     <h3 className="text-xl font-bold text-white mb-3">{post.title}</h3>
                     <p className="text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>

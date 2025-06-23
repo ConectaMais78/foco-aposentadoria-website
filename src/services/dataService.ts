@@ -33,44 +33,160 @@ class DataService {
     }
   }
 
-  // Blog Posts Management
+  // Blog Posts Management com dados padrão garantidos
   getBlogPosts(): BlogPost[] {
     const defaultPosts: BlogPost[] = [
       {
         id: '1',
         title: 'Novidades na Aposentadoria em 2025',
         slug: 'novidades-aposentadoria-2025',
-        content: 'As mudanças nas regras de aposentadoria continuam em 2025...',
-        excerpt: 'Conheça as principais mudanças nas regras de aposentadoria para 2025.',
-        author: 'Dr. João Silva',
-        publishDate: new Date().toISOString(),
+        content: `
+          <h2>Principais Mudanças em 2025</h2>
+          <p>As mudanças nas regras de aposentadoria continuam sendo um tema de grande interesse para os trabalhadores brasileiros. Em 2025, algumas alterações importantes entraram em vigor, afetando diretamente os direitos previdenciários.</p>
+          
+          <h3>Idade Mínima</h3>
+          <p>A idade mínima para aposentadoria continua seguindo a regra de transição estabelecida pela Emenda Constitucional 103/2019. Para 2025:</p>
+          <ul>
+            <li>Mulheres: 62 anos</li>
+            <li>Homens: 65 anos</li>
+          </ul>
+          
+          <h3>Tempo de Contribuição</h3>
+          <p>O tempo mínimo de contribuição permanece:</p>
+          <ul>
+            <li>Mulheres: 15 anos</li>
+            <li>Homens: 20 anos</li>
+          </ul>
+          
+          <h3>Regras de Transição</h3>
+          <p>As regras de transição continuam valendo para quem já contribuía antes da reforma. É fundamental entender qual regra é mais vantajosa para seu caso específico.</p>
+          
+          <p>Para uma análise completa do seu caso, entre em contato conosco através do WhatsApp. Nossa equipe está pronta para orientá-lo sobre a melhor estratégia para sua aposentadoria.</p>
+        `,
+        excerpt: 'Conheça as principais mudanças nas regras de aposentadoria para 2025 e como elas podem afetar seus direitos previdenciários.',
+        author: 'Dr. Carlos Silva',
+        publishDate: new Date('2025-05-10').toISOString(),
         status: 'published',
         category: 'Aposentadoria',
-        tags: ['aposentadoria', 'INSS', '2025'],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        tags: ['aposentadoria', 'INSS', '2025', 'reforma'],
+        createdAt: new Date('2025-05-10').toISOString(),
+        updatedAt: new Date('2025-05-10').toISOString(),
         viewCount: 1234,
-        readTime: '5 min'
+        readTime: '5 min',
+        image: 'https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80'
       },
       {
         id: '2',
         title: 'Aposentadoria Especial: Quem tem direito?',
         slug: 'aposentadoria-especial-direito',
-        content: 'A aposentadoria especial é um benefício destinado aos trabalhadores...',
-        excerpt: 'Entenda quem tem direito à aposentadoria especial e como solicitar.',
-        author: 'Dra. Maria Santos',
-        publishDate: new Date().toISOString(),
+        content: `
+          <h2>O que é Aposentadoria Especial?</h2>
+          <p>A aposentadoria especial é um benefício destinado aos trabalhadores que exercem atividades em condições prejudiciais à saúde ou à integridade física. Este tipo de aposentadoria permite que o trabalhador se aposente com menos tempo de contribuição.</p>
+          
+          <h3>Quem tem direito?</h3>
+          <p>Têm direito à aposentadoria especial os trabalhadores expostos a:</p>
+          <ul>
+            <li>Agentes químicos (como amianto, benzeno, chumbo)</li>
+            <li>Agentes físicos (ruído, calor, frio, radiação)</li>
+            <li>Agentes biológicos (vírus, bactérias, fungos)</li>
+            <li>Associação de agentes prejudiciais</li>
+          </ul>
+          
+          <h3>Tempo de Contribuição Necessário</h3>
+          <p>O tempo varia conforme o grau de exposição:</p>
+          <ul>
+            <li>15 anos: atividades de alto risco</li>
+            <li>20 anos: atividades de médio risco</li>
+            <li>25 anos: atividades de baixo risco</li>
+          </ul>
+          
+          <h3>Como Comprovar?</h3>
+          <p>A comprovação é feita através do PPP (Perfil Profissiográfico Previdenciário) e LTCAT (Laudo Técnico das Condições Ambientais do Trabalho), documentos que devem ser fornecidos pela empresa.</p>
+          
+          <p>Se você trabalha ou trabalhou em atividades insalubres, entre em contato conosco para verificar seus direitos.</p>
+        `,
+        excerpt: 'Entenda quem tem direito à aposentadoria especial e como comprovar a exposição a agentes prejudiciais à saúde.',
+        author: 'Dra. Mariana Costa',
+        publishDate: new Date('2025-05-02').toISOString(),
         status: 'published',
         category: 'Aposentadoria',
-        tags: ['aposentadoria especial', 'direitos'],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        tags: ['aposentadoria especial', 'direitos', 'INSS'],
+        createdAt: new Date('2025-05-02').toISOString(),
+        updatedAt: new Date('2025-05-02').toISOString(),
         viewCount: 987,
-        readTime: '7 min'
+        readTime: '7 min',
+        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
+      },
+      {
+        id: '3',
+        title: 'Revisão da Vida Toda: O que você precisa saber',
+        slug: 'revisao-vida-toda',
+        content: `
+          <h2>O que é a Revisão da Vida Toda?</h2>
+          <p>A Revisão da Vida Toda é uma tese jurídica que permite incluir no cálculo da aposentadoria as contribuições anteriores a julho de 1994, quando foi criado o Plano Real. Esta revisão pode resultar em um aumento significativo no valor do benefício.</p>
+          
+          <h3>Como Funciona?</h3>
+          <p>Atualmente, o INSS considera apenas as contribuições a partir de julho de 1994 para calcular a Renda Mensal Inicial (RMI) da aposentadoria. Com a Revisão da Vida Toda, é possível incluir todo o período contributivo.</p>
+          
+          <h3>Quem pode solicitar?</h3>
+          <p>Podem solicitar a revisão:</p>
+          <ul>
+            <li>Aposentados que contribuíram antes de julho de 1994</li>
+            <li>Beneficiários que tiveram salários altos no período anterior a 1994</li>
+            <li>Quem se aposentou a partir de 29/11/1999</li>
+          </ul>
+          
+          <h3>Requisitos</h3>
+          <ul>
+            <li>Ter contribuições anteriores a julho de 1994</li>
+            <li>O cálculo incluindo todo o período deve ser mais vantajoso</li>
+            <li>Respeitar o prazo decadencial de 10 anos</li>
+          </ul>
+          
+          <h3>Vantagens e Riscos</h3>
+          <p><strong>Vantagens:</strong></p>
+          <ul>
+            <li>Possibilidade de aumento no valor da aposentadoria</li>
+            <li>Reconhecimento de todo o período contributivo</li>
+          </ul>
+          
+          <p><strong>Riscos:</strong></p>
+          <ul>
+            <li>O novo cálculo pode resultar em valor menor</li>
+            <li>Custos processuais em caso de derrota</li>
+          </ul>
+          
+          <p>É fundamental fazer uma análise prévia para verificar se a revisão será vantajosa. Nossa equipe pode fazer essa avaliação gratuitamente.</p>
+        `,
+        excerpt: 'Descubra o que é a revisão da vida toda e como ela pode aumentar o valor da sua aposentadoria.',
+        author: 'Dr. Rafael Mendes',
+        publishDate: new Date('2025-04-28').toISOString(),
+        status: 'published',
+        category: 'Revisões',
+        tags: ['revisão', 'aposentadoria', 'benefício', 'vida toda'],
+        createdAt: new Date('2025-04-28').toISOString(),
+        updatedAt: new Date('2025-04-28').toISOString(),
+        viewCount: 654,
+        readTime: '6 min',
+        image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'
       }
     ];
     
-    return this.getFromStorage('blogPosts', defaultPosts);
+    try {
+      const storedPosts = this.getFromStorage('blogPosts', defaultPosts);
+      
+      // Se não há posts armazenados ou array está vazio, usar posts padrão
+      if (!Array.isArray(storedPosts) || storedPosts.length === 0) {
+        this.saveToStorage('blogPosts', defaultPosts);
+        return defaultPosts;
+      }
+      
+      return storedPosts;
+    } catch (error) {
+      console.error('Erro ao carregar posts do blog:', error);
+      this.saveToStorage('blogPosts', defaultPosts);
+      return defaultPosts;
+    }
   }
 
   saveBlogPosts(posts: BlogPost[]): void {
